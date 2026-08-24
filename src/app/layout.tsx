@@ -1,4 +1,4 @@
 import type { Metadata } from "next";
 import "./globals.css";
 export const metadata: Metadata = { metadataBase:new URL("https://concept.madrussians.ru"),title:"MADRUSSIANS — экспедиции по России и миру",description:"Маленькие группы. Большие расстояния. Авторские экспедиции в труднодоступные места.",openGraph:{title:"MADRUSSIANS — не туры, экспедиции",description:"Камчатка, Курилы, Байкал, Кавказ и Тянь-Шань.",type:"website"},icons:{icon:"/favicon.png"},robots:{index:false,follow:false} };
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="ru"><body>{children}</body></html>}
+export default function RootLayout({children}:{children:React.ReactNode}){const buildCommit=(process.env.VERCEL_GIT_COMMIT_SHA??process.env.GIT_COMMIT_SHA??"development").slice(0,7);return <html lang="ru"><head><meta name="x-build-commit" content={buildCommit}/></head><body data-build={buildCommit}>{children}</body></html>}
