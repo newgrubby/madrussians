@@ -11,3 +11,122 @@
 @media(max-width:900px){.hero .cover{object-position:50% 60%}.hero h1{font-size:14vw}.expeditionGrid{overflow-x:auto;gap:1px}.expeditionCard{flex:0 0 84vw;height:78svh}.expeditionGrid:has(.expeditionCard:hover) .expeditionCard:not(:hover){filter:none}.expeditionCard .cardBody p,.expeditionCard .cardBody div{opacity:1;transform:none}.story{height:auto;padding:8rem 1.2rem}.storyStage{height:auto;min-height:1550px;position:relative;display:block;overflow:hidden}.storyStage h2{font-size:12vw;position:sticky;top:42vh;padding-top:42vh}.storyStage>.eyebrow{top:0;left:0}.s1{width:65vw;height:60vh;left:-1.2rem;top:8rem}.s2{width:49vw;height:45vh;right:-1.2rem;top:28rem}.s3{width:70vw;height:42vh;left:10vw;top:56rem;bottom:auto}.s4{width:58vw;height:36vh;right:-1rem;bottom:8rem}.s5{width:45vw;height:38vh;left:-1rem;right:auto;bottom:0}.s6{display:none}.storyNote{left:1.2rem;bottom:2rem}.format{grid-template-columns:1fr}.formatStage{min-height:65svh;order:-1}.formatList{margin-top:3rem}.aboutStat strong{font-size:38vw}.contact{min-height:110svh}}
 @media(prefers-reduced-motion:reduce){.heroImage{transform:none}.story{height:auto;padding:8rem 4vw}.storyStage{height:1050px;position:relative}.expeditionCard{clip-path:none!important}}
 @media(max-width:900px){.hero h1{font-size:11.5vw}}
+
+/* Phase 03 — final art direction */
+.hero h1{font-size:clamp(5rem,10.8vw,12rem);line-height:.8;max-width:94vw}
+.hero h1 span:last-child{margin-left:9vw}
+.heroEyebrow{margin-left:9vw;margin-bottom:1.1rem;opacity:.78}
+.heroBottom{font-size:.61rem;border-top-color:#ffffff3d}
+.heroBottom p:first-child{opacity:.54;letter-spacing:.13em}
+.heroBottom p:nth-child(2){max-width:31rem;color:#e1e5e2cc}
+.sideNav{opacity:.72}
+.header nav a:not(.headerCta){opacity:.78}
+
+.principles{min-height:55vh;align-items:start;padding-top:12rem;padding-bottom:12rem;gap:9vw}
+.principles article{padding-top:1.25rem}
+.principles span{display:block;font:400 clamp(1.8rem,2.7vw,3.2rem)/1 Unbounded,Arial,sans-serif;letter-spacing:-.06em}
+.principles h2{margin:3.2rem 0 1.2rem;font-size:.78rem}
+.principles p{max-width:18rem;color:#bfc3c0;font-size:.82rem}
+
+.expeditions{padding-top:12rem;padding-bottom:13rem}
+.expeditions .sectionHead{margin-bottom:6.5rem}
+.expeditionGrid{height:78vh;min-height:650px}
+.expeditionCard{height:100%;filter:brightness(.82);transition:flex .9s cubic-bezier(.22,1,.36,1),filter .65s ease}
+.expeditionCard:hover,.expeditionCard:focus-visible{flex:1.72 1 0;filter:brightness(1.04)}
+.expeditionGrid:has(.expeditionCard:hover) .expeditionCard:not(:hover){filter:brightness(.48)}
+.cardIndex{font-size:.72rem;top:1.7rem;left:1.6rem}
+.cardBody{inset:auto 1.6rem 1.7rem}
+.cardBody>span{font-size:.72rem;font-weight:600}
+.cardBody h3{max-width:18rem;font-size:clamp(1.15rem,1.55vw,1.75rem);opacity:.68;transition:opacity .45s,transform .65s cubic-bezier(.22,1,.36,1)}
+.expeditionCard:hover .cardBody h3,.expeditionCard:focus-visible .cardBody h3{opacity:1;transform:translateY(-3px)}
+.cardBody p{max-width:23rem}
+
+.storyStage h2{width:92vw;font-size:clamp(5rem,10.1vw,11rem);text-align:left;line-height:.82}
+.storyStage h2 span:nth-child(2){margin-left:7vw}
+.storyStage h2 span:nth-child(3){margin-left:25vw}
+.s1{width:31vw;height:74vh;left:-3vw;top:14vh}
+.s2{width:24vw;height:52vh;right:3vw;top:7vh}
+.s3{width:26vw;height:44vh;left:11vw;bottom:-5vh}
+.s4{width:29vw;height:34vh;right:19vw;bottom:-3vh}
+.s5{width:14vw;height:48vh;right:-1vw;bottom:2vh}
+.storyNote{left:54vw;bottom:6vh;font-size:1.3rem}
+
+.format{min-height:100vh;grid-template-columns:.86fr 1.14fr;gap:5vw;padding-top:10rem;padding-bottom:10rem}
+.format h2{font-size:clamp(4.6rem,6.3vw,7.4rem)}
+.formatList{margin-top:5rem}
+.formatList button{min-height:4.7rem;padding:1.35rem .5rem}
+.formatList button:not(.active){color:#525552}
+.formatList button.active{color:var(--ink)}
+.formatList button.active strong{font-weight:700}
+.formatStage{min-height:calc(100vh - 20rem)}
+
+.archive{padding-top:13rem;padding-bottom:13rem}
+.archiveHead{margin-bottom:7rem}
+.archive figure{flex-basis:47vw}
+.archive figure>div{height:65vh}
+.archive figcaption{grid-template-columns:4rem 1fr auto;padding:1.35rem 0}
+.archive figcaption span{font:400 1.1rem/1 Unbounded,Arial,sans-serif}
+.archive figcaption b{font-size:1rem}
+.archive figcaption em{font-size:.72rem;letter-spacing:.08em}
+
+.about{min-height:110vh;padding-top:12rem;padding-bottom:12rem;align-items:start}
+.aboutStat{margin:5rem 0 6rem}
+.aboutStat strong{font-size:clamp(11rem,18vw,20rem)}
+.aboutCopy{padding-top:8rem}
+.reviews{min-height:105vh;padding-top:12rem;padding-bottom:12rem}
+.reviews blockquote{font-size:clamp(2.8rem,4.6vw,5.4rem);max-width:1260px}
+.reviewMeta button{min-width:3rem;min-height:3rem;font-size:.62rem}
+.contact{padding-top:11rem;padding-bottom:10rem}
+.contact h2{font-size:clamp(6rem,11.5vw,13rem);margin:3rem 0 8rem}
+.contactGrid{grid-template-columns:.8fr 1.7fr;gap:12vw}
+.contact form{gap:1.1rem 2rem}
+
+@media(max-width:900px){
+ .hero{min-height:100svh;padding-top:6rem}
+ .hero h1{font-size:13.7vw;line-height:.84;max-width:none}
+ .hero h1 span:last-child{margin-left:0}
+ .heroEyebrow{margin-left:0;margin-bottom:.85rem;font-size:.58rem}
+ .heroBottom p:nth-child(2){max-width:19rem}
+ .principles{min-height:0;padding-top:8rem;padding-bottom:8rem;gap:4rem}
+ .principles span{font-size:2.5rem}
+ .principles h2{margin-top:2rem}
+ .expeditions{padding-top:8rem;padding-bottom:9rem}
+ .expeditions .sectionHead{margin-bottom:4rem}
+ .expeditionGrid{height:auto;min-height:0}
+ .expeditionCard{flex:0 0 88vw;height:76svh;min-height:570px;filter:brightness(.92)}
+ .expeditionCard:hover{flex-basis:88vw}
+ .cardBody h3{font-size:1.55rem;opacity:1}
+ .story{height:auto;padding:8rem 0}
+ .storyStage{width:100%;height:1180px;min-height:0;position:relative;display:block;overflow:hidden}
+ .storyStage h2{position:absolute;z-index:8;top:390px;left:1.2rem;width:calc(100% - 2.4rem);padding:0;font-size:12.6vw;line-height:.84;text-align:left}
+ .storyStage h2 span:nth-child(2),.storyStage h2 span:nth-child(3){margin-left:0}
+ .storyStage h2 span:nth-child(2){margin-left:7vw}
+ .storyStage h2 span:nth-child(3){margin-left:14vw}
+ .storyStage>.eyebrow{left:1.2rem;top:0}
+ .s1{width:78vw;height:48vh;left:0;top:5rem}
+ .s2{width:44vw;height:31vh;right:0;top:25rem}
+ .s3{width:72vw;height:40vh;left:14vw;top:auto;bottom:8rem}
+ .s4{width:42vw;height:26vh;right:0;bottom:1rem}
+ .s5{display:none}
+ .storyNote{left:1.2rem;bottom:1rem;font-size:1rem}
+ .format{min-height:0;grid-template-columns:1fr;padding-top:7rem;padding-bottom:8rem}
+ .formatStage{min-height:64svh;order:0;margin-top:4rem}
+ .formatTitle{display:flex;flex-direction:column}
+ .formatList{margin-top:3.5rem}
+ .archive{padding-top:9rem;padding-bottom:9rem}
+ .archiveHead{margin-bottom:4rem}
+ .archive figure{flex-basis:86vw}
+ .archive figure>div{height:58vh}
+ .archive figcaption{grid-template-columns:3rem 1fr;gap:.35rem}
+ .archive figcaption em{grid-column:2}
+ .about{min-height:0;padding-top:9rem;padding-bottom:9rem}
+ .aboutStat{margin:4rem 0}
+ .aboutStat strong{font-size:43vw}
+ .aboutCopy{padding-top:1rem}
+ .reviews{min-height:100svh;padding-top:9rem;padding-bottom:9rem}
+ .reviews blockquote{font-size:2.35rem;line-height:1.08}
+ .contact{min-height:100svh;padding-top:8rem;padding-bottom:7rem}
+ .contact h2{font-size:17vw;line-height:.82;margin:3rem 0 5rem}
+ .contactGrid{gap:4rem}
+ .contact form{gap:1rem}
+}
