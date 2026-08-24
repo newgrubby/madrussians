@@ -13,3 +13,14 @@ All 20 files in `public/images/madrussians/` come from public pages on the offic
 | `chara-01` | `https://madrussians.ru/blog/chara` | `tild6365…/5BB3AA55-D91A-4704-8.jpeg` | Archive | Temporary concept |
 
 The complete original URLs used for download remain directly recoverable from the filenames/source pages and the Phase 02 acquisition record. Production clearance: **not granted / required**.
+## Phase 04 environmental scenes
+
+The centralized page environment reuses five registered official assets; no new source downloads were required. Runtime delivery is handled by `next/image` with responsive WebP/AVIF negotiation.
+
+| Scene | Asset | Coverage |
+|---|---|---|
+| Road | `hero-01.jpeg` | Hero continuation / Facts |
+| Mountains | `kyrgyzstan-03.jpeg` | Expeditions |
+| Pacific | `kurils-03.jpeg` | Story / Format transition |
+| Memory | `dagestan-03.jpeg` | Archive |
+| People | `home-03.jpeg` | About / Reviews |

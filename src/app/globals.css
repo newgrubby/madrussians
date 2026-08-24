@@ -130,3 +130,39 @@
  .contactGrid{gap:4rem}
  .contact form{gap:1rem}
 }
+
+/* Phase 04 — cinematic page environment */
+body{background:#070909}
+.siteShell{position:relative;isolation:isolate;background:transparent}
+.pageEnvironment{position:fixed;z-index:-2;inset:-4vh 0;overflow:hidden;pointer-events:none;background:#070909}
+.environmentScene{position:absolute;inset:-3vh -2vw;opacity:0;will-change:opacity,transform;transform-origin:center}
+.environmentScene.active{opacity:1}
+.environmentScene img{object-fit:cover;filter:saturate(.72) contrast(.92) brightness(.66)}
+.environmentVeil{position:absolute;z-index:2;inset:0;background:linear-gradient(90deg,rgba(5,8,8,.78),rgba(5,8,8,.47) 48%,rgba(5,8,8,.68)),linear-gradient(0deg,rgba(5,8,8,.7),rgba(5,8,8,.28) 46%,rgba(5,8,8,.68))}
+.siteShell>header,.siteShell>.mobileMenu,.siteShell>main,.siteShell>footer{position:relative;z-index:1}
+.principles,.expeditions,.story,.archive,.about,.reviews{background:transparent}
+.principles{border-top:1px solid #ffffff14;border-bottom-color:#ffffff29}
+.principles article{border-top-color:#ffffff38}
+.expeditions{box-shadow:inset 0 1px #ffffff12}
+.expeditions .sectionHead>p:last-child,.principles p,.aboutCopy>p+ p{color:#d1d7d3}
+.storyStage{background:transparent}
+.format{background:rgba(239,238,233,.88)}
+.archive{box-shadow:inset 0 1px #ffffff14}
+.archive figcaption{border-bottom-color:#ffffff32}
+.about{border-top-color:#ffffff2e}
+.reviews{box-shadow:inset 0 1px #ffffff16,inset 0 -1px #ffffff16}
+footer{background:#070909}
+
+@media(max-width:900px){
+ .pageEnvironment{position:fixed;inset:0}
+ .environmentScene{inset:-1px}
+ .environmentScene img{filter:saturate(.7) contrast(.9) brightness(.58)}
+ .environmentVeil{background:rgba(5,8,8,.62)}
+ .format{background:rgba(239,238,233,.94)}
+}
+
+@media(prefers-reduced-motion:reduce){
+ .pageEnvironment{position:absolute;height:100svh}
+ .environmentScene{display:none}
+ .environmentScene:first-child{display:block;opacity:1;transform:none}
+}

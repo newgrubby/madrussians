@@ -10,6 +10,46 @@ import {reviews} from "@/data/reviews";
 import {formatItems,principles,site} from "@/data/site";
 
 const Arrow=()=> <span aria-hidden>↘</span>;
+const environmentScenes = [
+ {id:"road",image:"/images/madrussians/hero-01.jpeg",trigger:".principles",position:"center 62%"},
+ {id:"mountains",image:"/images/madrussians/kyrgyzstan-03.jpeg",trigger:"#expeditions",position:"center 48%"},
+ {id:"pacific",image:"/images/madrussians/kurils-03.jpeg",trigger:".story",position:"center 52%"},
+ {id:"memory",image:"/images/madrussians/dagestan-03.jpeg",trigger:"#archive",position:"center 55%"},
+ {id:"people",image:"/images/madrussians/home-03.jpeg",trigger:"#about",position:"center 48%"},
+] as const;
+
+function PageEnvironment(){
+ const environment=useRef<HTMLDivElement>(null);
+ useEffect(()=>{
+  if(!environment.current||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  gsap.registerPlugin(ScrollTrigger);
+  const ctx=gsap.context(()=>{
+   const layers=gsap.utils.toArray<HTMLElement>(".environmentScene");
+   let stops:number[]=[];
+   const measure=()=>{stops=environmentScenes.map((scene,index)=>index===0?0:(document.querySelector(scene.trigger)?.getBoundingClientRect().top??0)+scrollY)};
+   const render=(scrollPosition:number)=>{
+    const focus=scrollPosition+innerHeight*.56;
+    let current=0;
+    while(current<stops.length-1&&focus>=stops[current+1])current++;
+    const next=Math.min(current+1,layers.length-1);
+    const start=stops[current]??0;
+    const end=stops[next]??start+innerHeight;
+    const blend=next===current?0:gsap.utils.clamp(0,1,(focus-start)/Math.max(end-start,1));
+    layers.forEach((layer,index)=>{
+     const opacity=index===current?1-blend:index===next?blend:0;
+     const local=index===current?blend:index===next?blend-1:0;
+     gsap.set(layer,{opacity,scale:innerWidth<=900?1:1.065-Math.abs(local)*.025,yPercent:innerWidth<=900?0:local*-2.5});
+    });
+   };
+   measure();
+   const controller=ScrollTrigger.create({trigger:document.documentElement,start:"top top",end:"bottom bottom",onRefresh:measure,onUpdate:self=>render(self.scroll())});
+   render(scrollY);
+   return()=>controller.kill();
+  },environment);
+  return()=>ctx.revert();
+ },[]);
+ return <div className="pageEnvironment" ref={environment} aria-hidden="true">{environmentScenes.map((scene,index)=><div className={`environmentScene environmentScene${index===0?" active":""}`} key={scene.id}><Image src={scene.image} alt="" fill sizes="100vw" quality={82} loading="lazy" style={{objectPosition:scene.position}}/></div>)}<div className="environmentVeil"/></div>;
+}
 export default function Site(){
  const [menu,setMenu]=useState(false); const [review,setReview]=useState(0); const [activeFormat,setActiveFormat]=useState(0);
  const root=useRef<HTMLDivElement>(null);
@@ -29,7 +69,7 @@ export default function Site(){
    }
  },root);const refresh=()=>ScrollTrigger.refresh();window.addEventListener("load",refresh);return()=>{window.removeEventListener("load",refresh);ctx.revert()}},[]);
  const formatImages=["/images/madrussians/home-02.jpeg","/images/madrussians/kamchatka-02.jpeg","/images/madrussians/home-04.jpeg","/images/madrussians/kurils-01.jpeg","/images/madrussians/kurils-02.jpeg"];
- return <div ref={root}>
+ return <div ref={root} className="siteShell"><PageEnvironment/>
   <header className="header"><a className="logo" href="#top">MADRUSSIANS</a><nav aria-label="Основная навигация"><a href="#expeditions">ЭКСПЕДИЦИИ</a><a href="#about">О ПРОЕКТЕ</a><a href="#archive">АРХИВ</a><a href="#contact">КОНТАКТЫ</a><a className="headerCta" href="#contact">ПОЕХАЛИ →</a></nav><button className="menuButton" onClick={()=>setMenu(!menu)} aria-expanded={menu} aria-label="Открыть меню">{menu?"ЗАКРЫТЬ":"МЕНЮ"}</button></header>
   {menu&&<div className="mobileMenu">{[["ЭКСПЕДИЦИИ","#expeditions"],["О ПРОЕКТЕ","#about"],["АРХИВ","#archive"],["КОНТАКТЫ","#contact"]].map(x=><a key={x[0]} href={x[1]} onClick={()=>setMenu(false)}>{x[0]} <Arrow/></a>)}</div>}
   <main>
