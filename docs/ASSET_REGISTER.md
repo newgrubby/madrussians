@@ -1,6 +1,6 @@
 # MADRUSSIANS media register — Phase 02
 
-All 19 files in `public/images/madrussians/` come from public pages on the official MADRUSSIANS Tilda CDN and are used temporarily in this personal redesign prototype. Ownership is not claimed; written clearance is required before production.
+All 20 files in `public/images/madrussians/` come from public pages on the official MADRUSSIANS Tilda CDN and are used temporarily in this personal redesign prototype. Ownership is not claimed; written clearance is required before production.
 
 | Files | Original page | CDN source pattern | Used in | Status |
 |---|---|---|---|---|
@@ -10,5 +10,6 @@ All 19 files in `public/images/madrussians/` come from public pages on the offic
 | `baikal-01`…`03` | `https://madrussians.ru/baikal` | `tild3237…/1D760…`, `tild6662…/photo_2024…`, `tild3166…/9684…` | Card, story, archive | Temporary concept |
 | `kamchatka-01`…`03` | `https://madrussians.ru/kamchatka` | `tild3063…/DFAF…`, `tild3034…/599D…`, `tild3432…/AC82…` | Card, story, format, archive | Temporary concept |
 | `kurils-01`…`03` | `https://madrussians.ru/north_kuriles` | `tild6333…/181B…`, `tild3836…/4C84…`, `tild6161…/3100…` | Card, story, format, about, archive | Temporary concept |
+| `chara-01` | `https://madrussians.ru/blog/chara` | `tild6365…/5BB3AA55-D91A-4704-8.jpeg` | Archive | Temporary concept |
 
 The complete original URLs used for download remain directly recoverable from the filenames/source pages and the Phase 02 acquisition record. Production clearance: **not granted / required**.

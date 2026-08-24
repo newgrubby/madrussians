@@ -13,3 +13,18 @@ out/
 
 # Superseded placeholder assets; production imagery lives in madrussians/
 public/images/expeditions/
+tsconfig.tsbuildinfo
+qa/production-cleanup/
+Crashpad/
+CrashpadMetrics*
+Default/
+GPUPersistentCache/
+GrShaderCache/
+ShaderCache/
+extensions_crx_cache/
+segmentation_platform/
+Last Browser
+Last Version
+Local State
+Variations*
+first_party_sets.db*
