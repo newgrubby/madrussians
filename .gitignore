@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+
+.env*
+!.env.example
+*.log
+
+# Local browser profiles and visual-audit artifacts
+.p02-*/
+.qa-*/
+.audit-*/
+
+# Superseded placeholder assets; production imagery lives in madrussians/
+public/images/expeditions/

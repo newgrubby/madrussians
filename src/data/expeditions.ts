@@ -1,0 +1,8 @@
+export type Expedition = { slug:string; destination:string; title:string; dates:string[]; price:string; places:string; descriptor:string; image:string; href:string };
+export const expeditions: Expedition[] = [
+  {slug:"kyrgyzstan",destination:"KYRGYZSTAN",title:"НЕБЕСНЫЕ ГОРЫ ТЯНЬ-ШАНЯ",dates:["14—19 СЕНТЯБРЯ 2026 · 2 МЕСТА","21—26 СЕНТЯБРЯ 2026 · 4 МЕСТА"],price:"139 000 ₽",places:"4 PARTICIPANTS",descriptor:"Высокогорные озёра, каньоны и оффроуд",image:"/images/madrussians/kyrgyzstan-01.jpeg",href:"/expeditions/kyrgyzstan"},
+  {slug:"dagestan",destination:"DAGESTAN",title:"НЕТУРИСТИЧЕСКИЙ ДАГЕСТАН",dates:["5—11 ОКТЯБРЯ 2026 · 4 МЕСТА","12—18 ОКТЯБРЯ 2026 · 4 МЕСТА"],price:"119 000 ₽",places:"4 PARTICIPANTS",descriptor:"Большой джип-тур по отдалённым районам",image:"/images/madrussians/dagestan-01.jpeg",href:"/expeditions/dagestan"},
+  {slug:"baikal",destination:"BAIKAL",title:"САМЫЙ КРАСИВЫЙ ЛЁД В МИРЕ",dates:["15—19 ФЕВРАЛЯ 2027 · 8 МЕСТ"],price:"129 000 ₽",places:"5 DAYS",descriptor:"Лёд, тишина и зимний Ольхон",image:"/images/madrussians/baikal-01.jpeg",href:"/expeditions/baikal"},
+  {slug:"kamchatka",destination:"KAMCHATKA",title:"КРАЙ ВУЛКАНОВ И СОЛЁНЫХ ВОЛН",dates:["21—27 ИЮНЯ 2027 · 8 МЕСТ"],price:"198 000 ₽",places:"7 DAYS",descriptor:"Вулканы, Тихий океан и лютый оффроуд",image:"/images/madrussians/kamchatka-01.jpeg",href:"/expeditions/kamchatka"},
+  {slug:"north-kurils",destination:"NORTH KURILS",title:"РОМАНТИКА ДАЛЁКИХ БЕРЕГОВ",dates:["5—13 ИЮЛЯ 2027 · 8 МЕСТ"],price:"295 000 ₽",places:"9 DAYS",descriptor:"Яхта и необитаемые вулканические острова",image:"/images/madrussians/kurils-01.jpeg",href:"/expeditions/north-kurils"},
+];
