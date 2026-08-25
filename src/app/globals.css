@@ -518,3 +518,24 @@ html[lang="en"] .storyStage h2 span:nth-child(3){margin-left:18vw}
  .heroImage,.storyMedia,.formatStage img{transform:none!important}
  .expeditionCard{scroll-behavior:auto}
 }
+
+/* Phase 08 mobile type containment polish */
+@media(max-width:767px){
+ .editorialInterruption>p{max-width:100%;font-size:clamp(2.35rem,10.7vw,2.9rem)}
+ .editorialInterruption>p i{max-width:92%;margin-left:8vw;font-size:clamp(2.25rem,10.4vw,2.85rem);overflow-wrap:break-word}
+ .expeditions .sectionHead h2{max-width:100%;font-size:clamp(2.25rem,10.3vw,2.85rem);letter-spacing:-.08em}
+ .storyClip:nth-child(2){left:var(--mobile-gutter);right:var(--mobile-gutter)}
+ .storyClip:nth-child(2) .storyLine{font-size:clamp(1.9rem,8.4vw,2.35rem);letter-spacing:-.065em}
+ html[lang="en"] .storyClip:nth-child(1) .storyLine{font-size:clamp(2.65rem,11.5vw,2.9rem);letter-spacing:-.08em}
+ html[lang="en"] .storyClip:nth-child(2) .storyLine{font-size:clamp(2.35rem,12vw,3.25rem);letter-spacing:-.075em}
+ .storyClip:nth-child(3) .storyLine{font-size:.92em}
+}
+
+@media(max-width:340px){
+ .editorialInterruption>p{font-size:2.2rem}
+ .editorialInterruption>p i{font-size:2.1rem}
+ .expeditions .sectionHead h2{font-size:2.1rem}
+ .storyClip:nth-child(2) .storyLine{font-size:1.58rem}
+ html[lang="en"] .storyClip:nth-child(2) .storyLine{font-size:2.2rem}
+ .contact h2{font-size:3.8rem}
+}

@@ -98,6 +98,26 @@ test.describe("Phase 08 mobile field edition",()=>{
     await expect(page.locator(".formatIndicator").first()).toBeVisible();
     await expect(page.locator(".formatDesktopArrow").first()).not.toBeVisible();
   });
+
+  test("semantic display type stays inside every supported mobile viewport",async({page})=>{
+    const selectors=[".editorialInterruption>p",".expeditions .sectionHead h2",".storyHeadline h2",".format h2",".archiveHead h2",".about h2",".editorial h2",".contact h2",".cardBody h3"];
+    for(const locale of ["ru","en"] as const){
+      for(const width of [320,360,375,390,393,430]){
+        await page.setViewportSize({width,height:width===430?932:width===320?700:844});
+        await page.goto(`/${locale}`,{waitUntil:"load"});
+        await page.evaluate(()=>document.fonts.ready);
+        const rects=await page.evaluate((targets:string[])=>targets.flatMap(selector=>[...document.querySelectorAll(selector)].flatMap(element=>{
+          const walker=document.createTreeWalker(element,NodeFilter.SHOW_TEXT);const result:{selector:string;text:string;left:number;right:number}[]=[];let node;
+          while((node=walker.nextNode())){if(!node.textContent?.trim())continue;const range=document.createRange();range.selectNodeContents(node);for(const rect of range.getClientRects())result.push({selector,text:node.textContent.trim(),left:rect.left,right:rect.right})}
+          return result;
+        })),selectors);
+        for(const rect of rects){
+          expect(rect.left,`${locale} ${width}px ${rect.selector}: ${rect.text}`).toBeGreaterThanOrEqual(-1);
+          expect(rect.right,`${locale} ${width}px ${rect.selector}: ${rect.text}`).toBeLessThanOrEqual(width+1);
+        }
+      }
+    }
+  });
 });
 
 test("Phase 08 pass-one captures",async({page})=>{
