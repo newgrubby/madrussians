@@ -56,6 +56,28 @@ test.describe("Phase 08 mobile field edition",()=>{
     await page.locator(".destinationMenu button").nth(1).click();
   });
 
+  test("format image stage stays visible and follows native scroll",async({page})=>{
+    await open(page);
+    const stage=page.locator(".formatStage"),rows=page.locator(".formatList button");
+    await stage.scrollIntoViewIfNeeded();
+    expect(await stage.evaluate(element=>getComputedStyle(element).position)).toBe("sticky");
+    await rows.nth(3).evaluate(element=>{document.documentElement.style.scrollBehavior="auto";const top=element.getBoundingClientRect().top+scrollY-innerHeight*.78;scrollTo(0,top)});await page.waitForTimeout(120);
+    await expect(rows.nth(3)).toHaveClass(/active/);
+    await expect(stage).toBeInViewport();
+    await rows.nth(1).evaluate(element=>{const top=element.getBoundingClientRect().top+scrollY-innerHeight*.78;scrollTo(0,top)});await page.waitForTimeout(120);
+    await expect(rows.nth(1)).toHaveClass(/active/);
+    await expect(stage).toBeInViewport();
+  });
+
+  test("final story word clears the last photograph",async({page})=>{
+    for(const locale of ["ru","en"] as const){
+      await open(page,locale);
+      const word=page.locator(".storyClip").nth(2).locator(".storyLine");
+      const geometry=await word.evaluate(wordElement=>{const photoElement=document.querySelector<HTMLElement>(".storyStage .s3")!,range=document.createRange();range.selectNodeContents(wordElement);const wordRect=range.getBoundingClientRect(),photoRect=photoElement.getBoundingClientRect();return{wordBottom:wordRect.bottom,photoTop:photoRect.top}});
+      expect(geometry.wordBottom,locale).toBeLessThanOrEqual(geometry.photoTop-12);
+    }
+  });
+
   for(const locale of ["ru","en"] as const){
     test(`${locale} has no horizontal overflow and footer is reachable`,async({page})=>{
       await open(page,locale);
@@ -81,10 +103,9 @@ test.describe("Phase 08 mobile field edition",()=>{
       await open(page,locale);
       const storyLine=page.locator(".storyClip").nth(1).locator(".storyLine");
       await storyLine.scrollIntoViewIfNeeded();
-      const storyBounds=await storyLine.boundingBox();
-      expect(storyBounds).not.toBeNull();
-      expect(storyBounds!.x).toBeGreaterThanOrEqual(-1);
-      expect(storyBounds!.x+storyBounds!.width).toBeLessThanOrEqual(mobile.width+1);
+      const storyBounds=await storyLine.evaluate(element=>{const range=document.createRange();range.selectNodeContents(element);const rect=range.getBoundingClientRect();return{left:rect.left,right:rect.right}});
+      expect(storyBounds.left).toBeGreaterThanOrEqual(-1);
+      expect(storyBounds.right).toBeLessThanOrEqual(mobile.width-12);
     }
     await page.goto("/ru");
     await page.locator("#archive").scrollIntoViewIfNeeded();
