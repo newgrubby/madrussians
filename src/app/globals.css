@@ -241,6 +241,8 @@ h1 i,h2 i,.editorialInterruption i{font-family:var(--font-editorial);font-weight
 .eyebrow,.header,.heroBottom,.sideNav,.cardBody,.cardIndex,.archive figcaption,.conceptBadge,.languageSwitch,form,footer{font-family:var(--font-ui)}
 .hero h1{font-size:var(--type-hero);font-weight:500;letter-spacing:-.078em}
 .hero h1 span:first-child b{letter-spacing:-.07em}
+.hero h1 span:last-child{width:100%;padding-right:.22em}
+.hero h1 span:last-child b{font-size:.92em}
 .heroEyebrow{letter-spacing:.19em}
 .heroBottom{letter-spacing:.035em}
 .editorialInterruption{position:relative;min-height:52vh;padding:12vh 4vw 14vh;display:flex;align-items:flex-end;justify-content:space-between;overflow:hidden;border-bottom:1px solid #ffffff1a}
@@ -248,7 +250,6 @@ h1 i,h2 i,.editorialInterruption i{font-family:var(--font-editorial);font-weight
 .editorialInterruption>p i{display:inline-block;margin-left:10vw;letter-spacing:-.045em}
 .editorialInterruption>span{position:absolute;right:4vw;top:18vh;font-size:var(--type-micro);letter-spacing:.18em;color:var(--cyan)}
 .contours{width:24rem;height:auto;fill:none;stroke:var(--cyan);stroke-width:.75;opacity:.22;pointer-events:none}
-.editorialInterruption>.contours{position:absolute;right:-3rem;bottom:-1rem;width:36vw}
 .routeSignature{position:relative;height:18rem;margin:-5rem 0 4rem;color:var(--cyan);overflow:hidden}
 .routeSignature>span{position:absolute;top:2.4rem;left:0;font-size:var(--type-micro);letter-spacing:.18em}
 .routeSignature svg{position:absolute;inset:2rem 0 0;width:100%;height:11rem;overflow:visible}
@@ -263,8 +264,20 @@ h1 i,h2 i,.editorialInterruption i{font-family:var(--font-editorial);font-weight
 .storyContours{position:absolute;z-index:4;right:7vw;bottom:9vh;width:21vw}
 .story{display:block;overflow:visible}
 .storyStage{overflow:visible}
-.storyHeadline{position:relative;z-index:5;width:92vw;overflow:visible;will-change:transform,opacity}
-.storyHeadline h2{width:100%;font-size:clamp(5rem,10vw,10.8rem)}
+.storyHeadline{position:relative;z-index:5;width:86vw;overflow:visible;will-change:transform,opacity}
+.storyHeadline h2{width:100%;font-size:clamp(4.7rem,8.9vw,9.6rem);line-height:.88}
+.storyStage h2 span:nth-child(2){margin-left:5vw}
+.storyStage h2 span:nth-child(3){margin-left:20vw}
+.storyStage .s1{width:24vw;height:18vh;left:0;top:8vh}
+.storyStage .s2{width:18vw;height:49vh;right:2vw;top:7vh}
+.storyStage .s3{width:19vw;height:34vh;left:10vw;bottom:-7vh}
+.storyStage .s4{width:21vw;height:30vh;right:17vw;bottom:-6vh}
+.storyStage .s5{width:13vw;height:39vh;right:-1vw;bottom:3vh}
+.storyStage>.eyebrow{left:28vw;top:8vh}
+html[lang="en"] .storyHeadline{width:78vw}
+html[lang="en"] .storyHeadline h2{font-size:clamp(4.8rem,9.2vw,9.9rem)}
+html[lang="en"] .storyStage h2 span:nth-child(2){margin-left:8vw}
+html[lang="en"] .storyStage h2 span:nth-child(3){margin-left:18vw}
 .storyClip{overflow:hidden}
 .storyLine{transform:translateY(0)}
 .storyMedia img{filter:saturate(.88) contrast(.98) brightness(.86)}
@@ -285,7 +298,6 @@ h1 i,h2 i,.editorialInterruption i{font-family:var(--font-editorial);font-weight
  .editorialInterruption>p{font-size:12.5vw}
  .editorialInterruption>p i{margin-left:0}
  .editorialInterruption>span{top:5rem;right:1.2rem}
- .editorialInterruption>.contours{width:85vw;right:-20vw}
  .routeSignature{height:12rem;margin:-2rem 0 2.5rem}
  .routeSignature svg{height:7rem}
  .routeCodes b:nth-child(2){display:none}
@@ -295,6 +307,14 @@ h1 i,h2 i,.editorialInterruption i{font-family:var(--font-editorial);font-weight
  .storyStage{overflow:hidden}
  .storyHeadline{position:relative;z-index:8;width:auto;height:0;opacity:1!important;transform:none!important;will-change:auto}
  .storyHeadline h2{width:calc(100% - 2.4rem)}
+ .storyStage h2 span:nth-child(2){margin-left:7vw}
+ .storyStage h2 span:nth-child(3){margin-left:14vw}
+ .storyStage .s1{width:65vw;height:60vh;left:-1.2rem;top:8rem}
+ .storyStage .s2{width:49vw;height:45vh;right:-1.2rem;top:28rem}
+ .storyStage .s3{width:70vw;height:42vh;left:10vw;top:56rem;bottom:auto}
+ .storyStage .s4{width:58vw;height:36vh;right:-1rem;bottom:8rem}
+ .storyStage .s5{width:45vw;height:38vh;left:-1rem;right:auto;bottom:0}
+ .storyStage>.eyebrow{left:1.2rem;top:0}
  .archive figcaption{grid-template-columns:4.5rem minmax(0,1fr)}
  .archive figcaption span{font-size:1.45rem}
  .archive figcaption small{margin-top:.4rem}
