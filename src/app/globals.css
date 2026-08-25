@@ -203,3 +203,20 @@ footer{background:#070909}
 .destinationMenu button.active,.destinationMenu button:hover,.destinationMenu button:focus-visible{background:#8be3e60d}
 .destinationMenu button.active span,.destinationMenu button:hover span,.destinationMenu button:focus-visible span,.destinationMenu button.selected span{transform:translateX(3px)}
 .contact form .destinationTrigger{height:44px;min-height:0;padding-top:1rem;padding-bottom:1rem;border-bottom-color:#ffffff88;font:inherit;letter-spacing:inherit}
+
+/* RAVENORTH concept + locale controls */
+.conceptBadge,.footerConcept,.mobileConcept{font-size:.52rem;letter-spacing:.16em;color:var(--cyan);white-space:nowrap}
+.conceptBadge{margin-left:1rem;padding-left:1rem;border-left:1px solid #ffffff38}
+.languageSwitch{display:flex;align-items:center;gap:.42rem;font-size:.58rem;letter-spacing:.12em}
+.languageSwitch button{padding:.25rem 0;background:none;border:0;border-bottom:1px solid transparent;color:inherit;opacity:.4;cursor:pointer}
+.languageSwitch button.active{border-bottom-color:var(--cyan);opacity:1}
+.editorial h2{margin:4rem 0 6rem;font:400 clamp(4rem,8vw,9rem)/.86 Unbounded,Arial,sans-serif;letter-spacing:-.07em}
+.editorialGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4vw;border-top:1px solid var(--line)}
+.editorialGrid article{padding-top:1.5rem}.editorialGrid span{font-size:.64rem;letter-spacing:.13em;color:var(--cyan)}
+.editorialGrid h3{margin:4rem 0 1rem;font:400 clamp(1.6rem,2.5vw,3rem)/1 Unbounded,Arial,sans-serif}.editorialGrid p{max-width:20rem;line-height:1.55;color:#d1d7d3}
+.footerDisclaimer{max-width:34rem;line-height:1.55;letter-spacing:.02em}footer>a{color:var(--cyan);line-height:1.5}
+@media(max-width:1200px){.header nav{gap:1rem}.header nav a{font-size:.55rem}.conceptBadge{display:none}}
+@media(max-width:900px){.header{gap:.8rem}.header .logo{font-size:.92rem}.header>.languageSwitch{margin-left:auto}.header>.languageSwitch span,.header>.languageSwitch button:not(.active){display:none}.menuButton{flex:0 0 auto;padding:0}.hero h1{width:100%;max-width:none;font-size:10vw;line-height:.88;letter-spacing:-.07em}.hero h1 span:last-child{margin-left:0}.mobileMenu .languageSwitch{margin-top:3rem;font-size:.8rem}.mobileMenu .languageSwitch span,.mobileMenu .languageSwitch button{display:block}.mobileConcept{margin-top:1.5rem}.editorial h2{font-size:13vw;margin-bottom:4rem}.editorialGrid{grid-template-columns:1fr;gap:3rem}.editorialGrid h3{margin-top:2rem}footer{grid-template-columns:1fr}.footerDisclaimer{max-width:none}}
+body[data-audit="story"] .story{position:fixed;z-index:100;inset:0;height:100vh!important;padding:0!important;background:#070909}
+body[data-audit="story"] .storyStage{position:absolute;inset:0;width:100%;height:100vh!important}
+.header{position:fixed;background:rgba(7,9,9,.72);backdrop-filter:blur(14px)}

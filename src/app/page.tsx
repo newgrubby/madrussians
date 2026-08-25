@@ -1,2 +1,2 @@
-import Site from "@/components/Site";
-export default function Page(){return <Site/>}
+import {redirect} from "next/navigation";
+export default function Page(){redirect("/ru")}

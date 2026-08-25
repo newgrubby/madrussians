@@ -1,122 +1,38 @@
 "use client";
+/* eslint-disable @next/next/no-location-assign-relative-destination */
 import Image from "next/image";
-import Link from "next/link";
 import {useEffect,useRef,useState} from "react";
 import gsap from "gsap";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
-import {expeditions} from "@/data/expeditions";
-import {archive} from "@/data/archive";
-import {reviews} from "@/data/reviews";
-import {formatItems,principles,site} from "@/data/site";
+import {content,type Locale} from "@/content";
 
 const Arrow=()=> <span aria-hidden>↘</span>;
-const destinations=["Сахалин и Курилы","Камчатка","Алтай","Байкал","Дагестан","Кольский полуостров","Осетия","Приэльбрусье","Не определился — помогите выбрать"] as const;
-const environmentScenes = [
- {id:"road",image:"/images/madrussians/hero-01.jpeg",trigger:".principles",position:"center 62%"},
- {id:"mountains",image:"/images/madrussians/kyrgyzstan-03.jpeg",trigger:"#expeditions",position:"center 48%"},
- {id:"pacific",image:"/images/madrussians/kurils-03.jpeg",trigger:".story",position:"center 52%"},
- {id:"memory",image:"/images/madrussians/dagestan-03.jpeg",trigger:"#archive",position:"center 55%"},
- {id:"people",image:"/images/madrussians/home-03.jpeg",trigger:"#about",position:"center 48%"},
-] as const;
+const scenes=[["road","hero-01.jpeg",".principles","center 62%"],["mountains","kyrgyzstan-03.jpeg","#expeditions","center 48%"],["pacific","kurils-03.jpeg",".story","center 52%"],["memory","dagestan-03.jpeg","#archive","center 55%"],["people","home-03.jpeg","#about","center 48%"]] as const;
+const formatImages=["home-02.jpeg","kamchatka-02.jpeg","home-04.jpeg","kurils-01.jpeg","kurils-02.jpeg"];
 
-function PageEnvironment(){
- const environment=useRef<HTMLDivElement>(null);
- useEffect(()=>{
-  if(!environment.current||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  gsap.registerPlugin(ScrollTrigger);
-  const ctx=gsap.context(()=>{
-   const layers=gsap.utils.toArray<HTMLElement>(".environmentScene");
-   let stops:number[]=[];
-   const measure=()=>{stops=environmentScenes.map((scene,index)=>index===0?0:(document.querySelector(scene.trigger)?.getBoundingClientRect().top??0)+scrollY)};
-   const render=(scrollPosition:number)=>{
-    const focus=scrollPosition+innerHeight*.56;
-    let current=0;
-    while(current<stops.length-1&&focus>=stops[current+1])current++;
-    const next=Math.min(current+1,layers.length-1);
-    const start=stops[current]??0;
-    const end=stops[next]??start+innerHeight;
-    const blend=next===current?0:gsap.utils.clamp(0,1,(focus-start)/Math.max(end-start,1));
-    layers.forEach((layer,index)=>{
-     const opacity=index===current?1-blend:index===next?blend:0;
-     const local=index===current?blend:index===next?blend-1:0;
-     gsap.set(layer,{opacity,scale:innerWidth<=900?1:1.065-Math.abs(local)*.025,yPercent:innerWidth<=900?0:local*-2.5});
-    });
-   };
-   measure();
-   const controller=ScrollTrigger.create({trigger:document.documentElement,start:"top top",end:"bottom bottom",onRefresh:measure,onUpdate:self=>render(self.scroll())});
-   render(scrollY);
-   return()=>controller.kill();
-  },environment);
-  return()=>ctx.revert();
- },[]);
- return <div className="pageEnvironment" ref={environment} aria-hidden="true">{environmentScenes.map((scene,index)=><div className={`environmentScene environmentScene${index===0?" active":""}`} key={scene.id}><Image src={scene.image} alt="" fill sizes="100vw" quality={82} loading="lazy" style={{objectPosition:scene.position}}/></div>)}<div className="environmentVeil"/></div>;
-}
-function DestinationSelect(){
- const [destination,setDestination]=useState("");
- const [open,setOpen]=useState(false);
- const [activeIndex,setActiveIndex]=useState(0);
- const field=useRef<HTMLDivElement>(null);
- const listId="destination-options";
- useEffect(()=>{
-  const close=(event:PointerEvent)=>{if(!field.current?.contains(event.target as Node))setOpen(false)};
-  document.addEventListener("pointerdown",close);
-  return()=>document.removeEventListener("pointerdown",close);
- },[]);
- const choose=(index:number)=>{setDestination(destinations[index]);setActiveIndex(index);setOpen(false)};
- const show=()=>{field.current?.scrollIntoView({block:"center"});setOpen(true)};
- const handleKeyDown=(event:React.KeyboardEvent<HTMLButtonElement>)=>{
-  if(event.key==="ArrowDown"||event.key==="ArrowUp"){
-   event.preventDefault();
-   const direction=event.key==="ArrowDown"?1:-1;
-   show();
-   setActiveIndex(current=>open?(current+direction+destinations.length)%destinations.length:Math.max(destinations.indexOf(destination as typeof destinations[number]),0));
-  }else if((event.key==="Enter"||event.key===" ")&&open){event.preventDefault();choose(activeIndex)}
-  else if(event.key==="Escape"){event.preventDefault();setOpen(false)}
-  else if(event.key==="Tab")setOpen(false);
- };
- return <div className={`destinationSelect${open?" open":""}`} ref={field}>
-  <input type="hidden" name="destination" value={destination}/>
-  <button type="button" className="destinationTrigger" role="combobox" aria-labelledby="destination-label" aria-expanded={open} aria-controls={listId} aria-haspopup="listbox" aria-activedescendant={open?`destination-option-${activeIndex}`:undefined} onClick={()=>open?setOpen(false):show()} onKeyDown={handleKeyDown}>
-   <span className={destination?"selected":""}>{destination||"Выберите направление"}</span><span className="destinationChevron" aria-hidden>↓</span>
-  </button>
-  <div className="destinationMenu" id={listId} role="listbox" aria-label="Направления MADRUSSIANS">
-   {destinations.map((option,index)=><button type="button" role="option" id={`destination-option-${index}`} aria-selected={destination===option} className={`${activeIndex===index?"active ":""}${destination===option?"selected":""}`} onPointerMove={()=>setActiveIndex(index)} onClick={()=>choose(index)} key={option}><span>{option}</span><i aria-hidden>{destination===option?"•":"→"}</i></button>)}
-  </div>
- </div>;
-}
-export default function Site(){
- const [menu,setMenu]=useState(false); const [review,setReview]=useState(0); const [activeFormat,setActiveFormat]=useState(0);
- const root=useRef<HTMLDivElement>(null);
- useEffect(()=>{document.body.style.overflow=menu?"hidden":"";return()=>{document.body.style.overflow=""}},[menu]);
- useEffect(()=>{if(!root.current||matchMedia("(prefers-reduced-motion: reduce)").matches)return;gsap.registerPlugin(ScrollTrigger);const ctx=gsap.context(()=>{
-   if(!navigator.webdriver){
-     gsap.fromTo(".heroImage",{scale:1.045},{scale:1,duration:1.8,ease:"power3.out"});
-     gsap.from(".heroReveal",{yPercent:115,duration:1.05,stagger:.12,ease:"power3.out",delay:.15});
-   } else {
-     gsap.set(".heroImage",{scale:1});
-   }
-   gsap.to(".heroImage",{yPercent:8,ease:"none",scrollTrigger:{trigger:".hero",start:"top top",end:"bottom top",scrub:true}});
-   gsap.from(".expeditionCard",{clipPath:"inset(100% 0 0 0)",duration:1.1,stagger:.1,ease:"power3.out",scrollTrigger:{trigger:".expeditionGrid",start:"top 82%"}});
-   if(matchMedia("(min-width: 901px)").matches){
-     const story=gsap.timeline({scrollTrigger:{trigger:".story",start:"top top",end:"bottom bottom",scrub:1}});
-     story.from(".storyLine",{yPercent:120,stagger:.12,ease:"power3.out"},0).from(".storyMedia",{scale:.88,opacity:0,stagger:.08,ease:"power2.out"},.08).to(".depthBack",{yPercent:-10,ease:"none"},0).to(".depthMid",{yPercent:-20,ease:"none"},0).to(".depthFront",{yPercent:-32,ease:"none"},0);
-   }
- },root);const refresh=()=>ScrollTrigger.refresh();window.addEventListener("load",refresh);return()=>{window.removeEventListener("load",refresh);ctx.revert()}},[]);
- const formatImages=["/images/madrussians/home-02.jpeg","/images/madrussians/kamchatka-02.jpeg","/images/madrussians/home-04.jpeg","/images/madrussians/kurils-01.jpeg","/images/madrussians/kurils-02.jpeg"];
- return <div ref={root} className="siteShell"><PageEnvironment/>
-  <header className="header"><a className="logo" href="#top">MADRUSSIANS</a><nav aria-label="Основная навигация"><a href="#expeditions">ЭКСПЕДИЦИИ</a><a href="#about">О ПРОЕКТЕ</a><a href="#archive">АРХИВ</a><a href="#contact">КОНТАКТЫ</a><a className="headerCta" href="#contact">ПОЕХАЛИ →</a></nav><button className="menuButton" onClick={()=>setMenu(!menu)} aria-expanded={menu} aria-label="Открыть меню">{menu?"ЗАКРЫТЬ":"МЕНЮ"}</button></header>
-  {menu&&<div className="mobileMenu">{[["ЭКСПЕДИЦИИ","#expeditions"],["О ПРОЕКТЕ","#about"],["АРХИВ","#archive"],["КОНТАКТЫ","#contact"]].map(x=><a key={x[0]} href={x[1]} onClick={()=>setMenu(false)}>{x[0]} <Arrow/></a>)}</div>}
-  <main>
-   <section className="hero" id="top"><Image src="/images/madrussians/hero-01.jpeg" alt="Автомобиль экспедиции MADRUSSIANS на дороге среди гор" fill priority sizes="100vw" className="cover heroImage"/><div className="shade"/><p className="eyebrow heroEyebrow heroReveal">{site.tagline}</p><h1><span className="heroClip"><b className="heroReveal">НЕ ТУРЫ.</b></span><span className="heroClip"><b className="heroReveal">ЭКСПЕДИЦИИ.</b></span></h1><div className="heroBottom"><p>KAMCHATKA · KURILS · BAIKAL · CAUCASUS · TIAN SHAN</p><p>Маленькие группы. Большие расстояния. Места, куда редко добираются обычные путешественники.</p><a href="#expeditions">СМОТРЕТЬ ЭКСПЕДИЦИИ <Arrow/></a></div><aside className="sideNav" aria-label="Разделы"><a href="#expeditions">01 / ЭКСПЕДИЦИИ</a><a href="#format">02 / ФОРМАТ</a><a href="#archive">03 / АРХИВ</a><a href="#about">04 / О НАС</a><a href="#contact">05 / ПОЕХАЛИ</a></aside><span className="scroll">SCROLL ↓</span></section>
-   <section className="principles section">{principles.map(([n,t,d])=><article key={n}><span>{n}</span><h2>{t}</h2><p>{d}</p></article>)}</section>
-   <section className="expeditions section" id="expeditions"><div className="sectionHead"><p className="eyebrow">01 / SELECTED ROUTES</p><h2>EXPEDITIONS<br/><i>2026—27</i></h2><p>Маршруты, после которых обычный отпуск воспринимается немного иначе.</p></div><div className="expeditionGrid">{expeditions.map((e,i)=><Link className="expeditionCard" href={e.href} target={e.external?"_blank":undefined} rel={e.external?"noopener noreferrer":undefined} key={e.slug}><Image src={e.image} alt={e.title} fill sizes="(max-width: 700px) 88vw, 28vw"/><span className="cardShade"/><span className="cardIndex">0{i+1}</span><div className="cardBody"><span>{e.destination}</span><h3>{e.title}</h3><p>{e.dates.join(" / ")}</p><div><b>{e.price}</b><em>ОТКРЫТЬ <Arrow/></em></div></div></Link>)}</div></section>
-   <section className="story"><div className="storyStage"><div className="storyMedia s1 depthBack"><Image src="/images/madrussians/kamchatka-03.jpeg" alt="Камчатка" fill sizes="38vw"/></div><div className="storyMedia s2 depthMid"><Image src="/images/madrussians/kurils-01.jpeg" alt="Северные Курилы" fill sizes="25vw"/></div><div className="storyMedia s3 depthFront"><Image src="/images/madrussians/kamchatka-02.jpeg" alt="Внедорожники на Камчатке" fill sizes="28vw"/></div><div className="storyMedia s4 depthBack"><Image src="/images/madrussians/baikal-02.jpeg" alt="Лёд Байкала" fill sizes="30vw"/></div><div className="storyMedia s5 depthMid"><Image src="/images/madrussians/home-02.jpeg" alt="Участник экспедиции у океана" fill sizes="24vw"/></div><p className="eyebrow">FIELD NOTES / RUSSIA & BEYOND</p><h2><span className="storyClip"><b className="storyLine">ТУДА,</b></span><span className="storyClip"><b className="storyLine">ГДЕ КОНЧАЮТСЯ</b></span><span className="storyClip"><b className="storyLine"><i>ДОРОГИ.</i></b></span></h2><div className="storyNote">KAMCHATKA / 2025<br/><span>OFF ROAD / FIELD NOTE</span></div></div></section>
-   <section className="format section" id="format"><div className="formatTitle"><p className="eyebrow">02 / THE FORMAT</p><h2>НЕ КАК<br/><i>ОБЫЧНЫЙ ТУР.</i></h2><div className="formatList">{formatItems.map(([n,t,d],i)=><button key={n} onMouseEnter={()=>setActiveFormat(i)} onFocus={()=>setActiveFormat(i)} onClick={()=>setActiveFormat(i)} className={activeFormat===i?"active":""}><span>{n}</span><strong>{t}</strong><em>{d}</em><Arrow/></button>)}</div></div><div className="formatStage">{formatImages.map((src,i)=><Image key={src} src={src} alt="Формат экспедиции MADRUSSIANS" fill sizes="48vw" className={activeFormat===i?"active":""}/>) }<span>0{activeFormat+1} / MADRUSSIANS FORMAT</span></div></section>
-   <section className="archive section" id="archive"><div className="sectionHead archiveHead"><p className="eyebrow">03 / TRAVEL LOG</p><h2>{site.tripCount} ЭКСПЕДИЦИЯ.<br/><i>И ЭТО ТОЛЬКО НАЧАЛО.</i></h2></div><div className="archiveTrack">{archive.map((a,i)=><figure key={a.place}><div><Image src={a.image} alt={a.place} fill sizes="(max-width:700px) 80vw, 38vw"/></div><figcaption><span>0{i+1}</span><b>{a.place}</b><em>{a.date}</em></figcaption></figure>)}</div></section>
-   <section className="about section" id="about"><div><p className="eyebrow">04 / ABOUT MADRUSSIANS</p><div className="aboutStat"><strong>61</strong><span>ЭКСПЕДИЦИЯ<br/>С 2021</span></div><h2>PEOPLE<br/>WHO GO<br/><i>FURTHER.</i></h2></div><div className="aboutCopy"><p>Маленькие группы, специальные способы доставки и комфорт даже там, где заканчиваются обычные маршруты.</p><p>Внедорожники, яхты и профессиональный фотограф помогают добраться дальше — и сохранить путешествие не только в памяти.</p><div className="aboutImage"><Image src="/images/madrussians/kurils-02.jpeg" alt="Участница экспедиции MADRUSSIANS на Камчатке" fill sizes="45vw"/></div></div></section>
-   <section className="reviews section"><p className="eyebrow">05 / FROM THE ROAD</p><div className="quoteMark">“</div><blockquote>{reviews[review].text}</blockquote><div className="reviewMeta"><p><b>{reviews[review].name}</b><span>{reviews[review].route}</span></p><div>{reviews.map((_,i)=><button aria-label={`Отзыв ${i+1}`} className={review===i?"active":""} onClick={()=>setReview(i)} key={i}>{String(i+1).padStart(2,"0")}</button>)}</div></div></section>
-   <section className="contact section" id="contact"><Image src="/images/madrussians/home-02.jpeg" alt="Побережье экспедиции MADRUSSIANS" fill sizes="100vw" className="contactBg"/><div className="contactShade"/><p className="eyebrow">NEXT DEPARTURE / YOUR CALL</p><h2>КУДА<br/>ПОЕДЕМ<br/><i>ДАЛЬШЕ?</i></h2><div className="contactGrid"><p>Расскажите, куда хотите попасть. Команда поможет подобрать экспедицию.</p><form onSubmit={e=>e.preventDefault()}><label>ИМЯ<input name="name" required placeholder="Как вас зовут"/></label><label>КАК СВЯЗАТЬСЯ<input name="contact" required placeholder="Telegram или телефон"/></label><div className="contactField"><span id="destination-label">КУДА ХОТИТЕ ПОЕХАТЬ</span><DestinationSelect/></div><label>УДОБНЫЕ ДАТЫ<input name="dates" placeholder="Когда вам удобно"/></label><button type="submit">ОСТАВИТЬ ЗАЯВКУ →</button><small>Демо-форма: отправка будет подключена после согласования.</small></form></div></section>
-  </main>
-  <footer><div className="logo">MADRUSSIANS</div><p>{site.tagline}</p><div><a href={site.telegram} target="_blank" rel="noopener noreferrer">TELEGRAM</a><a href={site.whatsapp} target="_blank" rel="noopener noreferrer">WHATSAPP</a><a href={site.instagram} target="_blank" rel="noopener noreferrer">INSTAGRAM</a></div><p>© 2026 · CONCEPT REDESIGN</p></footer>
- </div>;
-}
+function PageEnvironment(){const ref=useRef<HTMLDivElement>(null);useEffect(()=>{if(!ref.current||matchMedia("(prefers-reduced-motion: reduce)").matches)return;gsap.registerPlugin(ScrollTrigger);const ctx=gsap.context(()=>{const layers=gsap.utils.toArray<HTMLElement>(".environmentScene");let stops:number[]=[];const measure=()=>{stops=scenes.map((s,i)=>i===0?0:(document.querySelector(s[2])?.getBoundingClientRect().top??0)+scrollY)};const render=(y:number)=>{const focus=y+innerHeight*.56;let current=0;while(current<stops.length-1&&focus>=stops[current+1])current++;const next=Math.min(current+1,layers.length-1),start=stops[current]??0,end=stops[next]??start+innerHeight,blend=next===current?0:gsap.utils.clamp(0,1,(focus-start)/Math.max(end-start,1));layers.forEach((layer,index)=>{const opacity=index===current?1-blend:index===next?blend:0,local=index===current?blend:index===next?blend-1:0;gsap.set(layer,{opacity,scale:innerWidth<=900?1:1.065-Math.abs(local)*.025,yPercent:innerWidth<=900?0:local*-2.5})})};measure();const controller=ScrollTrigger.create({trigger:document.documentElement,start:"top top",end:"bottom bottom",onRefresh:measure,onUpdate:self=>render(self.scroll())});render(scrollY);return()=>controller.kill()},ref);return()=>ctx.revert()},[]);return <div className="pageEnvironment" ref={ref} aria-hidden>{scenes.map((s,i)=><div className={`environmentScene${i===0?" active":""}`} key={s[0]}><Image src={`/images/madrussians/${s[1]}`} alt="" fill sizes="100vw" quality={82} style={{objectPosition:s[3]}}/></div>)}<div className="environmentVeil"/></div>}
+
+function LanguageSwitch({locale,onSwitch}:{locale:Locale;onSwitch:(next:Locale)=>void}){return <div className="languageSwitch" aria-label="Language"><button className={locale==="ru"?"active":""} onClick={()=>onSwitch("ru")}>RU</button><span>/</span><button className={locale==="en"?"active":""} onClick={()=>onSwitch("en")}>EN</button></div>}
+
+/* eslint-disable react-hooks/set-state-in-effect */
+
+function DestinationSelect({options,placeholder,aria}:{options:string[];placeholder:string;aria:string}){const [value,setValue]=useState(""),[open,setOpen]=useState(false),[active,setActive]=useState(0);const ref=useRef<HTMLDivElement>(null),listId="destination-options";useEffect(()=>{setValue("");setOpen(false)},[options]);useEffect(()=>{const close=(e:PointerEvent)=>{if(!ref.current?.contains(e.target as Node))setOpen(false)};document.addEventListener("pointerdown",close);return()=>document.removeEventListener("pointerdown",close)},[]);const choose=(i:number)=>{setValue(options[i]);setActive(i);setOpen(false)};const show=()=>{ref.current?.scrollIntoView({block:"center"});setOpen(true)};const keys=(e:React.KeyboardEvent<HTMLButtonElement>)=>{if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();show();setActive(i=>open?(i+(e.key==="ArrowDown"?1:-1)+options.length)%options.length:Math.max(options.indexOf(value),0))}else if((e.key==="Enter"||e.key===" ")&&open){e.preventDefault();choose(active)}else if(e.key==="Escape")setOpen(false)};return <div className={`destinationSelect${open?" open":""}`} ref={ref}><input type="hidden" name="destination" value={value}/><button type="button" className="destinationTrigger" role="combobox" aria-labelledby="destination-label" aria-expanded={open} aria-controls={listId} aria-haspopup="listbox" onClick={()=>open?setOpen(false):show()} onKeyDown={keys}><span className={value?"selected":""}>{value||placeholder}</span><span className="destinationChevron">↓</span></button><div className="destinationMenu" id={listId} role="listbox" aria-label={aria}>{options.map((option,i)=><button type="button" role="option" aria-selected={value===option} className={`${active===i?"active ":""}${value===option?"selected":""}`} onPointerMove={()=>setActive(i)} onClick={()=>choose(i)} key={option}><span>{option}</span><i>{value===option?"•":"→"}</i></button>)}</div></div>}
+
+export default function Site({locale}:{locale:Locale}){const t=content[locale];const [menu,setMenu]=useState(false),[activeFormat,setActiveFormat]=useState(0);const root=useRef<HTMLDivElement>(null);
+useEffect(()=>{document.documentElement.lang=locale;history.scrollRestoration="manual"},[locale]);useEffect(()=>{document.body.style.overflow=menu?"hidden":"";return()=>{document.body.style.overflow=""}},[menu]);
+useEffect(()=>{const audit=new URLSearchParams(location.search).get("audit");if(!audit)return;document.body.dataset.audit=audit;return()=>{delete document.body.dataset.audit}},[]);
+useEffect(()=>{if(!root.current||matchMedia("(prefers-reduced-motion: reduce)").matches)return;gsap.registerPlugin(ScrollTrigger);const ctx=gsap.context(()=>{if(!navigator.webdriver){gsap.fromTo(".heroImage",{scale:1.045},{scale:1,duration:1.8,ease:"power3.out"});gsap.from(".heroReveal",{yPercent:115,duration:1.05,stagger:.12,ease:"power3.out",delay:.15})}else gsap.set(".heroImage",{scale:1});gsap.to(".heroImage",{yPercent:8,ease:"none",scrollTrigger:{trigger:".hero",start:"top top",end:"bottom top",scrub:true}});gsap.from(".expeditionCard",{clipPath:"inset(100% 0 0 0)",duration:1.1,stagger:.1,ease:"power3.out",scrollTrigger:{trigger:".expeditionGrid",start:"top 82%"}});if(matchMedia("(min-width: 901px)").matches){const story=gsap.timeline({scrollTrigger:{trigger:".story",start:"top top",end:"bottom bottom",scrub:1}});story.from(".storyLine",{yPercent:120,stagger:.12},0).from(".storyMedia",{scale:.88,opacity:0,stagger:.08},.08).to(".depthBack",{yPercent:-10},0).to(".depthMid",{yPercent:-20},0).to(".depthFront",{yPercent:-32},0)}},root);const refresh=()=>ScrollTrigger.refresh();window.addEventListener("load",refresh);return()=>{window.removeEventListener("load",refresh);ctx.revert()}},[locale]);
+const switchLocale=(next:Locale)=>{if(next===locale)return;const sections=Array.from(document.querySelectorAll<HTMLElement>("main section[id]"));const anchor=sections.filter(s=>s.getBoundingClientRect().top<=innerHeight*.45).at(-1)??sections[0];const id=anchor?.id??"top",offset=anchor?scrollY-(anchor.getBoundingClientRect().top+scrollY):scrollY,state={id,offset,hash:location.hash};sessionStorage.setItem("ravenorth-locale-scroll",JSON.stringify(state));location.assign(`/${next}?section=${encodeURIComponent(id)}&offset=${Math.round(offset)}&returnHash=${encodeURIComponent(location.hash)}#${id}`)};useEffect(()=>{const params=new URLSearchParams(location.search),stored=sessionStorage.getItem("ravenorth-locale-scroll");const raw=stored??(params.has("section")?JSON.stringify({id:params.get("section"),offset:Number(params.get("offset")??0),hash:params.get("returnHash")??""}):null);if(!raw)return;const timer=setTimeout(()=>requestAnimationFrame(()=>{const {id,offset,hash}=JSON.parse(raw) as {id:string;offset:number;hash:string};const target=document.getElementById(id),html=document.documentElement,previous=html.style.scrollBehavior;html.style.scrollBehavior="auto";history.replaceState(null,"",`/${locale}${hash}`);ScrollTrigger.refresh();const top=target?target.getBoundingClientRect().top+scrollY+offset:0;html.scrollTop=top;document.body.scrollTop=top;requestAnimationFrame(()=>{html.scrollTop=top;document.body.scrollTop=top;ScrollTrigger.refresh();sessionStorage.removeItem("ravenorth-locale-scroll");requestAnimationFrame(()=>{html.style.scrollBehavior=previous})})}),120);return()=>clearTimeout(timer)},[locale]);
+return <div ref={root} className="siteShell"><PageEnvironment/>
+<header className="header"><a className="logo" href="#top">RAVENORTH</a><span className="conceptBadge">EO LABS CONCEPT / 2026</span><nav aria-label={t.menu.aria}>{t.navigation.map(x=><a href={x.href} key={x.href}>{x.label}</a>)}<a className="headerCta" href="#contact">{locale==="ru"?"СМОТРЕТЬ КОНЦЕПТ":"EXPLORE"} →</a></nav><LanguageSwitch locale={locale} onSwitch={switchLocale}/><button className="menuButton" onClick={()=>setMenu(!menu)} aria-expanded={menu}>{menu?t.menu.close:t.menu.open}</button></header>
+{menu&&<div className="mobileMenu">{t.navigation.map(x=><a key={x.href} href={x.href} onClick={()=>setMenu(false)}>{x.label}<Arrow/></a>)}<LanguageSwitch locale={locale} onSwitch={switchLocale}/><span className="mobileConcept">EO LABS CONCEPT / 2026</span></div>}
+<main><section className="hero" id="top"><Image src="/images/madrussians/hero-01.jpeg" alt="Remote mountain road" fill priority sizes="100vw" className="cover heroImage"/><div className="shade"/><p className="eyebrow heroEyebrow heroReveal">{t.hero.eyebrow}</p><h1>{t.hero.lines.map(line=><span className="heroClip" key={line}><b className="heroReveal">{line}</b></span>)}</h1><div className="heroBottom"><p>KAMCHATKA · KURILS · BAIKAL · CAUCASUS · TIAN SHAN</p><p>{t.hero.description}</p><a href="#expeditions">{t.hero.cta} <Arrow/></a></div><aside className="sideNav" aria-label={t.hero.sectionsAria}>{t.navigation.map((x,i)=><a href={x.href} key={x.href}>0{i+1} / {x.label}</a>)}<a href="#contact">05 / {locale==="ru"?"ДАЛЬШЕ":"NEXT"}</a></aside><span className="scroll">{t.hero.scroll} ↓</span></section>
+<section className="principles section">{t.principles.map(([n,title,description])=><article key={n}><span>{n}</span><h2>{title}</h2><p>{description}</p></article>)}</section>
+<section className="expeditions section" id="expeditions"><div className="sectionHead"><p className="eyebrow">{t.expeditionSection.eyebrow}</p><h2>{t.expeditionSection.title[0]}<br/><i>{t.expeditionSection.title[1]}</i></h2><p>{t.expeditionSection.description}</p></div><div className="expeditionGrid">{t.expeditions.map((e,i)=><a className="expeditionCard" href="#contact" key={e.slug}><Image src={e.image} alt={e.destination} fill sizes="(max-width: 700px) 88vw, 28vw"/><span className="cardShade"/><span className="cardIndex">{String(i+1).padStart(2,"0")}</span><div className="cardBody"><span>{e.destination}</span><h3>{e.title}</h3><p>{e.season}</p><div><b>{e.duration} · {e.group}</b><em>{t.expeditionSection.open} <Arrow/></em></div></div></a>)}</div></section>
+<section className="story" id="story"><div className="storyStage">{["kamchatka-03.jpeg","kurils-01.jpeg","kamchatka-02.jpeg","baikal-02.jpeg","home-02.jpeg"].map((name,i)=><div className={`storyMedia s${i+1} ${["depthBack","depthMid","depthFront","depthBack","depthMid"][i]}`} key={name}><Image src={`/images/madrussians/${name}`} alt="" fill sizes="30vw"/></div>)}<p className="eyebrow">{t.story.eyebrow}</p><h2>{t.story.lines.map((line,i)=><span className="storyClip" key={line}><b className="storyLine">{i===2?<i>{line}</i>:line}</b></span>)}</h2><div className="storyNote">{t.story.note}<br/><span>DESTINATION STUDY</span></div></div></section>
+<section className="format section" id="format"><div className="formatTitle"><p className="eyebrow">{t.format.eyebrow}</p><h2>{t.format.title[0]}<br/><i>{t.format.title[1]}</i></h2><div className="formatList">{t.format.items.map(([n,title,description],i)=><button key={n} onMouseEnter={()=>setActiveFormat(i)} onFocus={()=>setActiveFormat(i)} onClick={()=>setActiveFormat(i)} className={activeFormat===i?"active":""}><span>{n}</span><strong>{title}</strong><em>{description}</em><Arrow/></button>)}</div></div><div className="formatStage">{formatImages.map((name,i)=><Image key={name} src={`/images/madrussians/${name}`} alt={t.format.imageAlt} fill sizes="48vw" className={activeFormat===i?"active":""}/>)}<span>0{activeFormat+1} / {t.format.stageLabel}</span></div></section>
+<section className="archive section" id="archive"><div className="sectionHead archiveHead"><p className="eyebrow">{t.fieldLog.eyebrow}</p><h2>{t.fieldLog.title[0]}<br/><i>{t.fieldLog.title[1]}</i></h2></div><div className="archiveTrack">{t.fieldLog.items.map((item,i)=><figure key={item.place}><div><Image src={item.image} alt={item.place} fill sizes="(max-width:700px) 80vw, 38vw"/></div><figcaption><span>0{i+1}</span><b>{item.place}</b><em>{item.study}</em></figcaption></figure>)}</div></section>
+<section className="about section" id="about"><div><p className="eyebrow">{t.about.eyebrow}</p><div className="aboutStat"><strong>{String(t.expeditions.length).padStart(2,"0")}</strong><span>{t.about.metricLabel.split("\n").map(x=><span key={x}>{x}<br/></span>)}</span></div><h2>{t.about.title[0]}<br/><i>{t.about.title[1]}</i></h2></div><div className="aboutCopy"><p>{t.about.paragraphs[0]}</p><p>{t.about.paragraphs[1]}</p><div className="aboutImage"><Image src="/images/madrussians/kurils-02.jpeg" alt={t.about.imageAlt} fill sizes="45vw"/></div></div></section>
+<section className="reviews editorial section"><p className="eyebrow">{t.editorial.eyebrow}</p><h2>{t.editorial.title[0]}<br/><i>{t.editorial.title[1]}</i></h2><div className="editorialGrid">{t.editorial.items.map(([n,title,description])=><article key={n}><span>{n}</span><h3>{title}</h3><p>{description}</p></article>)}</div></section>
+<section className="contact section" id="contact"><Image src="/images/madrussians/home-02.jpeg" alt={t.contact.imageAlt} fill sizes="100vw" className="contactBg"/><div className="contactShade"/><p className="eyebrow">{t.contact.eyebrow}</p><h2>{t.contact.title[0]}<br/><i>{t.contact.title[1]}</i></h2><div className="contactGrid"><p>{t.contact.supporting}</p><form onSubmit={e=>e.preventDefault()}>{(["name","contact"] as const).map(key=><label key={key}>{t.contact.fields[key][0]}<input name={key} placeholder={t.contact.fields[key][1]}/></label>)}<div className="contactField"><span id="destination-label">{t.contact.fields.destination[0]}</span><DestinationSelect options={t.contact.destinations} placeholder={t.contact.fields.destination[1]} aria={t.contact.destinationsAria}/></div><label>{t.contact.fields.dates[0]}<input name="dates" placeholder={t.contact.fields.dates[1]}/></label><button type="submit" aria-disabled>{t.contact.submit}</button><small>{t.contact.note}</small></form></div></section></main>
+<footer><div><div className="logo">RAVENORTH</div><span className="footerConcept">EO LABS CONCEPT / 2026</span></div><p>{t.footer.descriptor}</p><p className="footerDisclaimer">{t.footer.disclaimer}</p><a href="https://eolabs.ru/" target="_blank" rel="noopener noreferrer">{t.footer.direction} ↗</a></footer></div>}
