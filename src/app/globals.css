@@ -191,3 +191,15 @@ footer{background:#070909}
 @media(prefers-reduced-motion:reduce){
  .destinationChevron,.destinationMenu,.destinationMenu button span,.destinationMenu button i{transition:none}
 }
+/* Destination select visual alignment — scoped above legacy form button rules */
+.contactField{font-size:.62rem;font-weight:400;letter-spacing:.12em;color:inherit}
+.destinationSelect{margin-top:0}
+.contact form .destinationTrigger{grid-column:auto;width:100%;min-height:3.25rem;padding:1rem 1.25rem 1rem 0;background:transparent;border:0;border-bottom:1px solid #ffffff59;color:#aeb8b5;font-size:1rem;font-weight:400;line-height:normal;letter-spacing:normal}
+.destinationTrigger .selected{color:var(--paper)}
+.destinationChevron{color:#ffffff99;font-size:.82rem;transition:color .2s ease,transform .2s ease}
+.destinationSelect.open .destinationTrigger,.destinationTrigger:focus-visible{border-bottom-color:var(--cyan);box-shadow:0 1px 0 var(--cyan)}
+.destinationSelect.open .destinationChevron,.destinationTrigger:hover .destinationChevron,.destinationTrigger:focus-visible .destinationChevron{color:var(--cyan)}
+.contact form .destinationMenu button{grid-column:auto;min-height:44px;padding:.72rem .9rem;background:transparent;color:var(--paper);font:500 .78rem/1.35 Manrope,Arial,sans-serif}
+.destinationMenu button.active,.destinationMenu button:hover,.destinationMenu button:focus-visible{background:#8be3e60d}
+.destinationMenu button.active span,.destinationMenu button:hover span,.destinationMenu button:focus-visible span,.destinationMenu button.selected span{transform:translateX(3px)}
+.contact form .destinationTrigger{height:44px;min-height:0;padding-top:1rem;padding-bottom:1rem;border-bottom-color:#ffffff88;font:inherit;letter-spacing:inherit}
