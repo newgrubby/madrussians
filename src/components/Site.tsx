@@ -10,6 +10,7 @@ import {reviews} from "@/data/reviews";
 import {formatItems,principles,site} from "@/data/site";
 
 const Arrow=()=> <span aria-hidden>↘</span>;
+const destinations=["Сахалин и Курилы","Камчатка","Алтай","Байкал","Дагестан","Кольский полуостров","Осетия","Приэльбрусье","Не определился — помогите выбрать"] as const;
 const environmentScenes = [
  {id:"road",image:"/images/madrussians/hero-01.jpeg",trigger:".principles",position:"center 62%"},
  {id:"mountains",image:"/images/madrussians/kyrgyzstan-03.jpeg",trigger:"#expeditions",position:"center 48%"},
@@ -50,6 +51,39 @@ function PageEnvironment(){
  },[]);
  return <div className="pageEnvironment" ref={environment} aria-hidden="true">{environmentScenes.map((scene,index)=><div className={`environmentScene environmentScene${index===0?" active":""}`} key={scene.id}><Image src={scene.image} alt="" fill sizes="100vw" quality={82} loading="lazy" style={{objectPosition:scene.position}}/></div>)}<div className="environmentVeil"/></div>;
 }
+function DestinationSelect(){
+ const [destination,setDestination]=useState("");
+ const [open,setOpen]=useState(false);
+ const [activeIndex,setActiveIndex]=useState(0);
+ const field=useRef<HTMLDivElement>(null);
+ const listId="destination-options";
+ useEffect(()=>{
+  const close=(event:PointerEvent)=>{if(!field.current?.contains(event.target as Node))setOpen(false)};
+  document.addEventListener("pointerdown",close);
+  return()=>document.removeEventListener("pointerdown",close);
+ },[]);
+ const choose=(index:number)=>{setDestination(destinations[index]);setActiveIndex(index);setOpen(false)};
+ const show=()=>{field.current?.scrollIntoView({block:"center"});setOpen(true)};
+ const handleKeyDown=(event:React.KeyboardEvent<HTMLButtonElement>)=>{
+  if(event.key==="ArrowDown"||event.key==="ArrowUp"){
+   event.preventDefault();
+   const direction=event.key==="ArrowDown"?1:-1;
+   show();
+   setActiveIndex(current=>open?(current+direction+destinations.length)%destinations.length:Math.max(destinations.indexOf(destination as typeof destinations[number]),0));
+  }else if((event.key==="Enter"||event.key===" ")&&open){event.preventDefault();choose(activeIndex)}
+  else if(event.key==="Escape"){event.preventDefault();setOpen(false)}
+  else if(event.key==="Tab")setOpen(false);
+ };
+ return <div className={`destinationSelect${open?" open":""}`} ref={field}>
+  <input type="hidden" name="destination" value={destination}/>
+  <button type="button" className="destinationTrigger" role="combobox" aria-labelledby="destination-label" aria-expanded={open} aria-controls={listId} aria-haspopup="listbox" aria-activedescendant={open?`destination-option-${activeIndex}`:undefined} onClick={()=>open?setOpen(false):show()} onKeyDown={handleKeyDown}>
+   <span className={destination?"selected":""}>{destination||"Выберите направление"}</span><span className="destinationChevron" aria-hidden>↓</span>
+  </button>
+  <div className="destinationMenu" id={listId} role="listbox" aria-label="Направления MADRUSSIANS">
+   {destinations.map((option,index)=><button type="button" role="option" id={`destination-option-${index}`} aria-selected={destination===option} className={`${activeIndex===index?"active ":""}${destination===option?"selected":""}`} onPointerMove={()=>setActiveIndex(index)} onClick={()=>choose(index)} key={option}><span>{option}</span><i aria-hidden>{destination===option?"•":"→"}</i></button>)}
+  </div>
+ </div>;
+}
 export default function Site(){
  const [menu,setMenu]=useState(false); const [review,setReview]=useState(0); const [activeFormat,setActiveFormat]=useState(0);
  const root=useRef<HTMLDivElement>(null);
@@ -81,7 +115,7 @@ export default function Site(){
    <section className="archive section" id="archive"><div className="sectionHead archiveHead"><p className="eyebrow">03 / TRAVEL LOG</p><h2>{site.tripCount} ЭКСПЕДИЦИЯ.<br/><i>И ЭТО ТОЛЬКО НАЧАЛО.</i></h2></div><div className="archiveTrack">{archive.map((a,i)=><figure key={a.place}><div><Image src={a.image} alt={a.place} fill sizes="(max-width:700px) 80vw, 38vw"/></div><figcaption><span>0{i+1}</span><b>{a.place}</b><em>{a.date}</em></figcaption></figure>)}</div></section>
    <section className="about section" id="about"><div><p className="eyebrow">04 / ABOUT MADRUSSIANS</p><div className="aboutStat"><strong>61</strong><span>ЭКСПЕДИЦИЯ<br/>С 2021</span></div><h2>PEOPLE<br/>WHO GO<br/><i>FURTHER.</i></h2></div><div className="aboutCopy"><p>Маленькие группы, специальные способы доставки и комфорт даже там, где заканчиваются обычные маршруты.</p><p>Внедорожники, яхты и профессиональный фотограф помогают добраться дальше — и сохранить путешествие не только в памяти.</p><div className="aboutImage"><Image src="/images/madrussians/kurils-02.jpeg" alt="Участница экспедиции MADRUSSIANS на Камчатке" fill sizes="45vw"/></div></div></section>
    <section className="reviews section"><p className="eyebrow">05 / FROM THE ROAD</p><div className="quoteMark">“</div><blockquote>{reviews[review].text}</blockquote><div className="reviewMeta"><p><b>{reviews[review].name}</b><span>{reviews[review].route}</span></p><div>{reviews.map((_,i)=><button aria-label={`Отзыв ${i+1}`} className={review===i?"active":""} onClick={()=>setReview(i)} key={i}>{String(i+1).padStart(2,"0")}</button>)}</div></div></section>
-   <section className="contact section" id="contact"><Image src="/images/madrussians/home-02.jpeg" alt="Побережье экспедиции MADRUSSIANS" fill sizes="100vw" className="contactBg"/><div className="contactShade"/><p className="eyebrow">NEXT DEPARTURE / YOUR CALL</p><h2>КУДА<br/>ПОЕДЕМ<br/><i>ДАЛЬШЕ?</i></h2><div className="contactGrid"><p>Расскажите, куда хотите попасть. Команда поможет подобрать экспедицию.</p><form onSubmit={e=>e.preventDefault()}><label>ИМЯ<input name="name" required placeholder="Как вас зовут"/></label><label>КАК СВЯЗАТЬСЯ<input name="contact" required placeholder="Telegram или телефон"/></label><label>КУДА ХОТИТЕ ПОЕХАТЬ<input name="destination" placeholder="Направление"/></label><label>УДОБНЫЕ ДАТЫ<input name="dates" placeholder="Когда вам удобно"/></label><button type="submit">ОСТАВИТЬ ЗАЯВКУ →</button><small>Демо-форма: отправка будет подключена после согласования.</small></form></div></section>
+   <section className="contact section" id="contact"><Image src="/images/madrussians/home-02.jpeg" alt="Побережье экспедиции MADRUSSIANS" fill sizes="100vw" className="contactBg"/><div className="contactShade"/><p className="eyebrow">NEXT DEPARTURE / YOUR CALL</p><h2>КУДА<br/>ПОЕДЕМ<br/><i>ДАЛЬШЕ?</i></h2><div className="contactGrid"><p>Расскажите, куда хотите попасть. Команда поможет подобрать экспедицию.</p><form onSubmit={e=>e.preventDefault()}><label>ИМЯ<input name="name" required placeholder="Как вас зовут"/></label><label>КАК СВЯЗАТЬСЯ<input name="contact" required placeholder="Telegram или телефон"/></label><div className="contactField"><span id="destination-label">КУДА ХОТИТЕ ПОЕХАТЬ</span><DestinationSelect/></div><label>УДОБНЫЕ ДАТЫ<input name="dates" placeholder="Когда вам удобно"/></label><button type="submit">ОСТАВИТЬ ЗАЯВКУ →</button><small>Демо-форма: отправка будет подключена после согласования.</small></form></div></section>
   </main>
   <footer><div className="logo">MADRUSSIANS</div><p>{site.tagline}</p><div><a href={site.telegram} target="_blank" rel="noopener noreferrer">TELEGRAM</a><a href={site.whatsapp} target="_blank" rel="noopener noreferrer">WHATSAPP</a><a href={site.instagram} target="_blank" rel="noopener noreferrer">INSTAGRAM</a></div><p>© 2026 · CONCEPT REDESIGN</p></footer>
  </div>;
