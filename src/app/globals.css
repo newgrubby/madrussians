@@ -220,3 +220,71 @@ footer{background:#070909}
 body[data-audit="story"] .story{position:fixed;z-index:100;inset:0;height:100vh!important;padding:0!important;background:#070909}
 body[data-audit="story"] .storyStage{position:absolute;inset:0;width:100%;height:100vh!important}
 .header{position:fixed;background:rgba(7,9,9,.72);backdrop-filter:blur(14px)}
+
+/* Phase 06 — signature typography and brand codes */
+:root{
+ --font-display:var(--font-unbounded),Arial,sans-serif;
+ --font-editorial:var(--font-prata),Georgia,serif;
+ --font-ui:var(--font-onest),Arial,sans-serif;
+ --type-hero:clamp(5rem,10.8vw,12rem);
+ --type-display-xl:clamp(5rem,10.1vw,11rem);
+ --type-display-lg:clamp(4rem,8vw,9rem);
+ --type-title:clamp(1.6rem,2.5vw,3rem);
+ --type-body:clamp(.84rem,.9vw,1rem);
+ --type-label:.68rem;
+ --type-micro:.56rem;
+}
+body{font-family:var(--font-ui)}
+.logo,.hero h1,.sectionHead h2,.storyStage h2,.format h2,.about h2,.editorial h2,.contact h2,.principles span,.aboutStat strong,.editorialGrid h3{font-family:var(--font-display)}
+h1 i,h2 i,.editorialInterruption i{font-family:var(--font-editorial);font-weight:400}
+.eyebrow,.header,.heroBottom,.sideNav,.cardBody,.cardIndex,.archive figcaption,.conceptBadge,.languageSwitch,form,footer{font-family:var(--font-ui)}
+.hero h1{font-size:var(--type-hero);font-weight:500;letter-spacing:-.078em}
+.hero h1 span:first-child b{letter-spacing:-.07em}
+.heroEyebrow{letter-spacing:.19em}
+.heroBottom{letter-spacing:.035em}
+.editorialInterruption{position:relative;min-height:52vh;padding:12vh 4vw 14vh;display:flex;align-items:flex-end;justify-content:space-between;overflow:hidden;border-bottom:1px solid #ffffff1a}
+.editorialInterruption>p{position:relative;z-index:2;margin:0;font:500 clamp(3.2rem,6.5vw,7.4rem)/.9 var(--font-display);letter-spacing:-.07em}
+.editorialInterruption>p i{display:inline-block;margin-left:10vw;letter-spacing:-.045em}
+.editorialInterruption>span{position:absolute;right:4vw;top:18vh;font-size:var(--type-micro);letter-spacing:.18em;color:var(--cyan)}
+.contours{width:24rem;height:auto;fill:none;stroke:var(--cyan);stroke-width:.75;opacity:.22;pointer-events:none}
+.editorialInterruption>.contours{position:absolute;right:-3rem;bottom:-1rem;width:36vw}
+.routeSignature{position:relative;height:18rem;margin:-5rem 0 4rem;color:var(--cyan);overflow:hidden}
+.routeSignature>span{position:absolute;top:2.4rem;left:0;font-size:var(--type-micro);letter-spacing:.18em}
+.routeSignature svg{position:absolute;inset:2rem 0 0;width:100%;height:11rem;overflow:visible}
+.routePath{fill:none;stroke:currentColor;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:0;vector-effect:non-scaling-stroke}
+.routeSignature circle{fill:var(--ink);stroke:currentColor;stroke-width:1;vector-effect:non-scaling-stroke}
+.routeCodes{position:absolute;inset:auto 0 1rem;display:flex;justify-content:space-between}
+.routeCodes b{font-size:var(--type-micro);font-weight:500;letter-spacing:.15em}
+.expeditions{padding-top:7rem}
+.cardIndex{font-size:var(--type-micro);letter-spacing:.14em}
+.cardGlyph{position:absolute;z-index:2;right:-.07em;top:10%;font:500 clamp(4.8rem,8vw,9rem)/.8 var(--font-display);letter-spacing:-.12em;color:transparent;-webkit-text-stroke:1px #ffffff8a;opacity:.38;writing-mode:vertical-rl;pointer-events:none}
+.cardBody>span{letter-spacing:.11em}
+.storyContours{position:absolute;z-index:4;right:7vw;bottom:9vh;width:21vw}
+.mediaAnnotation{position:absolute;z-index:4;right:.8rem;top:.8rem;padding:.45rem;background:#080b0ad1;font:500 var(--type-micro)/1.5 var(--font-ui);letter-spacing:.13em;color:var(--cyan)}
+.archive figure>div{position:relative}
+.archive figcaption{grid-template-columns:6.5rem minmax(0,1fr) auto}
+.archive figcaption span{font:500 clamp(1.45rem,2.15vw,2.65rem)/.9 var(--font-display);letter-spacing:-.07em;color:var(--cyan)}
+.archive figcaption b,.archive figcaption em{display:block}
+.archive figcaption em{text-align:right}
+.archive figcaption small{display:block;font:500 var(--type-micro)/1.4 var(--font-ui);letter-spacing:.12em;opacity:.52}
+.archive figcaption em small{text-align:right}
+
+@media(max-width:900px){
+ :root{--type-hero:13.2vw;--type-display-xl:12.2vw;--type-display-lg:13vw;--type-title:1.65rem}
+ .hero h1{font-size:var(--type-hero);letter-spacing:-.075em}
+ .editorialInterruption{min-height:58svh;padding:8rem 1.2rem 7rem;align-items:center}
+ .editorialInterruption>p{font-size:12.5vw}
+ .editorialInterruption>p i{margin-left:0}
+ .editorialInterruption>span{top:5rem;right:1.2rem}
+ .editorialInterruption>.contours{width:85vw;right:-20vw}
+ .routeSignature{height:12rem;margin:-2rem 0 2.5rem}
+ .routeSignature svg{height:7rem}
+ .routeCodes b:nth-child(2){display:none}
+ .cardGlyph{font-size:22vw;top:12%}
+ .storyContours{width:58vw;right:-12vw;bottom:5rem}
+ .archive figcaption{grid-template-columns:4.5rem minmax(0,1fr)}
+ .archive figcaption span{font-size:1.45rem}
+ .archive figcaption small{margin-top:.4rem}
+ .archive figcaption em,.archive figcaption em small{text-align:left}
+}
+@media(prefers-reduced-motion:reduce){.routePath{stroke-dashoffset:0!important}.routeSignature,.contours{transform:none!important}}
