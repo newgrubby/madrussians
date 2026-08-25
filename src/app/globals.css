@@ -176,6 +176,7 @@ footer{background:#070909}
 .destinationTrigger:focus-visible{border-bottom-color:var(--cyan);box-shadow:0 1px 0 var(--cyan)}
 .destinationMenu{position:absolute;z-index:20;top:calc(100% + .45rem);left:0;width:100%;max-height:min(25rem,55vh);padding:.45rem;background:rgba(8,12,11,.96);border:1px solid #ffffff26;overflow-y:auto;overscroll-behavior:contain;opacity:0;visibility:hidden;transform:translateY(-8px);transform-origin:top;transition:opacity .24s ease,transform .24s ease,visibility 0s linear .24s}
 .destinationSelect.open .destinationMenu{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.contact .destinationMenu{top:auto;bottom:calc(100% + .45rem);transform:translateY(8px)}
 .destinationMenu button{width:100%;min-height:44px;padding:.72rem .8rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;background:transparent;border:0;color:var(--paper);font:500 .78rem/1.35 Manrope,Arial,sans-serif;text-align:left;cursor:pointer;outline:none}
 .destinationMenu button span{transition:color .18s ease,transform .18s ease}
 .destinationMenu button i{color:var(--cyan);font-style:normal;opacity:0;transition:opacity .18s ease}
@@ -298,5 +299,12 @@ h1 i,h2 i,.editorialInterruption i{font-family:var(--font-editorial);font-weight
  .archive figcaption span{font-size:1.45rem}
  .archive figcaption small{margin-top:.4rem}
  .archive figcaption em,.archive figcaption em small{text-align:left}
+}
+@media(max-width:430px){
+ :root{--type-hero:12vw}
+ .hero h1{font-size:var(--type-hero);line-height:.9}
+ .expeditions .sectionHead h2{font-size:clamp(2.55rem,11.2vw,3rem);line-height:.9}
+ .storyStage h2,.storyHeadline h2{font-size:10.2vw;line-height:.9}
+ .story .mediaAnnotation{display:none}
 }
 @media(prefers-reduced-motion:reduce){.routePath{stroke-dashoffset:0!important}.routeSignature,.contours,.storyHeadline,.storyLine{transform:none!important}.storyHeadline,.storyLine,.storyMedia{opacity:1!important}}
