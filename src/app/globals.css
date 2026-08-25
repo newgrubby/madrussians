@@ -234,7 +234,7 @@ body[data-audit="story"] .storyStage{position:absolute;inset:0;width:100%;height
  --type-label:.68rem;
  --type-micro:.56rem;
 }
-body{font-family:var(--font-ui)}
+body{font-family:var(--font-ui);overflow-x:clip}
 .logo,.hero h1,.sectionHead h2,.storyStage h2,.format h2,.about h2,.editorial h2,.contact h2,.principles span,.aboutStat strong,.editorialGrid h3{font-family:var(--font-display)}
 h1 i,h2 i,.editorialInterruption i{font-family:var(--font-editorial);font-weight:400}
 .eyebrow,.header,.heroBottom,.sideNav,.cardBody,.cardIndex,.archive figcaption,.conceptBadge,.languageSwitch,form,footer{font-family:var(--font-ui)}
@@ -260,7 +260,7 @@ h1 i,h2 i,.editorialInterruption i{font-family:var(--font-editorial);font-weight
 .cardGlyph{position:absolute;z-index:2;right:-.07em;top:10%;font:500 clamp(4.8rem,8vw,9rem)/.8 var(--font-display);letter-spacing:-.12em;color:transparent;-webkit-text-stroke:1px #ffffff8a;opacity:.38;writing-mode:vertical-rl;pointer-events:none}
 .cardBody>span{letter-spacing:.11em}
 .storyContours{position:absolute;z-index:4;right:7vw;bottom:9vh;width:21vw}
-.story{overflow:clip}
+.story{display:block;overflow:visible}
 .storyStage{overflow:visible}
 .storyHeadline{position:relative;z-index:5;width:92vw;overflow:visible;will-change:transform,opacity}
 .storyHeadline h2{width:100%;font-size:clamp(5rem,10vw,10.8rem)}

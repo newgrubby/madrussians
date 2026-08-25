@@ -23,6 +23,7 @@ for(const locale of ["ru","en"] as const){
     test(`${locale} Story hold remains vertically readable at ${viewport.width}`,async({page})=>{
       await page.setViewportSize(viewport);
       await page.goto(`/${locale}`,{waitUntil:"load"});
+      let holdReference:{top:number;bottom:number}[]|undefined;
       for(const progress of [.35,.5,.65]){
         await seekStory(page,progress);
         const boxes=await page.locator(".storyLine").evaluateAll(lines=>lines.map(line=>{
@@ -33,6 +34,11 @@ for(const locale of ["ru","en"] as const){
           expect(box.top).toBeGreaterThanOrEqual(viewport.height*.04);
           expect(box.bottom).toBeLessThanOrEqual(viewport.height*.96);
         }
+        if(!holdReference) holdReference=boxes;
+        else boxes.forEach((box,index)=>{
+          expect(Math.abs(box.top-holdReference![index].top)).toBeLessThan(3);
+          expect(Math.abs(box.bottom-holdReference![index].bottom)).toBeLessThan(3);
+        });
       }
     });
   }
