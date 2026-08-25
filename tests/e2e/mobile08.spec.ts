@@ -75,6 +75,29 @@ test.describe("Phase 08 mobile field edition",()=>{
     await expect(page.locator(".expeditionCard")).toHaveCount(8);
     await expect(page.locator(".storyHeadline")).toBeVisible();
   });
+
+  test("polish keeps story and field-log typography separated",async({page})=>{
+    for(const locale of ["ru","en"] as const){
+      await open(page,locale);
+      const storyLine=page.locator(".storyClip").nth(1).locator(".storyLine");
+      await storyLine.scrollIntoViewIfNeeded();
+      const storyBounds=await storyLine.boundingBox();
+      expect(storyBounds).not.toBeNull();
+      expect(storyBounds!.x).toBeGreaterThanOrEqual(-1);
+      expect(storyBounds!.x+storyBounds!.width).toBeLessThanOrEqual(mobile.width+1);
+    }
+    await page.goto("/ru");
+    await page.locator("#archive").scrollIntoViewIfNeeded();
+    for(const caption of await page.locator(".archive figcaption").all()){
+      const code=await caption.locator(":scope > span").boundingBox();
+      const place=await caption.locator(":scope > b").boundingBox();
+      expect(code).not.toBeNull();expect(place).not.toBeNull();
+      expect(code!.x+code!.width).toBeLessThanOrEqual(place!.x);
+    }
+    await page.locator("#format").scrollIntoViewIfNeeded();
+    await expect(page.locator(".formatIndicator").first()).toBeVisible();
+    await expect(page.locator(".formatDesktopArrow").first()).not.toBeVisible();
+  });
 });
 
 test("Phase 08 pass-one captures",async({page})=>{

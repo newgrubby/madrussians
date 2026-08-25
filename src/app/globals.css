@@ -332,6 +332,7 @@ html[lang="en"] .storyStage h2 span:nth-child(3){margin-left:18vw}
 /* Phase 08 — RAVENORTH Field Edition. Desktop remains on the established composition. */
 .mobileBrand{display:contents}.mobileBrandNote,.mobileFieldLabel,.mobileScroll,.formReveal{display:none}
 .cardMedia{position:absolute;inset:0;display:block;overflow:hidden}
+.formatIndicator{display:none}.formatDesktopArrow{display:contents}
 
 @media(max-width:767px){
  :root{
@@ -384,16 +385,16 @@ html[lang="en"] .storyStage h2 span:nth-child(3){margin-left:18vw}
  .heroBottom a{min-height:44px;display:flex;align-items:center;font-size:.55rem}
  .mobileScroll{display:block;position:absolute!important;z-index:2;right:-2.9rem;top:51%;transform:rotate(90deg);font-size:.47rem;letter-spacing:.18em;color:#ffffff9c}
 
- .principles{padding:5.5rem 0 6rem;display:flex;gap:0;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;border:0;scrollbar-width:none}
+ .principles{padding:4.25rem 0 4.5rem;display:flex;gap:0;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;border:0;scrollbar-width:none}
  .principles::-webkit-scrollbar{display:none}
- .principles article{flex:0 0 58vw;min-height:16rem;padding:1.2rem var(--mobile-gutter) 0;border-top:1px solid #ffffff48;scroll-snap-align:start}
+ .principles article{flex:0 0 56vw;min-height:13.5rem;padding:1.2rem var(--mobile-gutter) 0;border-top:1px solid #ffffff48;scroll-snap-align:start}
  .principles article:first-child{margin-left:var(--mobile-gutter)}
  .principles article:last-child{margin-right:12vw}
  .principles span{font-size:3.4rem;color:transparent;-webkit-text-stroke:1px var(--cyan)}
- .principles h2{max-width:10rem;margin:3rem 0 .8rem;font-size:.78rem;line-height:1.25}
+ .principles h2{max-width:10rem;margin:2.2rem 0 .8rem;font-size:.78rem;line-height:1.25}
  .principles p{display:none}
 
- .editorialInterruption{min-height:68svh;padding:14svh var(--mobile-gutter);align-items:center;border:0;background:linear-gradient(#070909ee,#070909a8),url('/images/madrussians/baikal-02.jpeg') center/cover}
+ .editorialInterruption{min-height:58svh;padding:10svh var(--mobile-gutter);align-items:center;border:0;background:linear-gradient(#070909ee,#070909a8),url('/images/madrussians/baikal-02.jpeg') center/cover}
  .editorialInterruption>p{font-size:var(--mobile-display-lg);line-height:.94}
  .editorialInterruption>p i{display:block;margin:1.2rem 0 0 13vw;font-size:var(--mobile-serif);letter-spacing:-.06em}
  .editorialInterruption>span{top:3rem;right:var(--mobile-gutter);font-size:.48rem}
@@ -405,7 +406,7 @@ html[lang="en"] .storyStage h2 span:nth-child(3){margin-left:18vw}
  .expeditions .sectionHead>p:last-child{max-width:16rem;font-size:.76rem}
  .expeditionGrid{height:auto;display:block;overflow:visible;padding:0;background:#080a09}
  .expeditionCard{--card-top:calc(3.7rem + var(--stack-index) * var(--stack-tab));position:sticky;top:var(--card-top);width:100%;height:calc(80svh - var(--stack-index) * var(--stack-tab));min-height:31rem;display:block;filter:none;clip-path:none!important;overflow:hidden;box-shadow:0 -1px #8be3e659,0 -16px 28px #03050580}
- .expeditionCard:not(:last-child){margin-bottom:72svh}
+ .expeditionCard:not(:last-child){margin-bottom:58svh}
  .expeditionCard:last-child{margin-bottom:0}
  .expeditionCard img{object-position:center;transform:none!important;filter:saturate(.84) contrast(1.02)}
  .expeditionCard .cardShade{background:linear-gradient(180deg,#050807b8 0%,transparent 33%,transparent 53%,#050807f2 100%)}
@@ -426,9 +427,11 @@ html[lang="en"] .storyStage h2 span:nth-child(3){margin-left:18vw}
  .storyHeadline h2{width:100%;height:100%;font-size:var(--mobile-display-xl);line-height:.86}
  .storyClip{position:absolute;left:var(--mobile-gutter);right:var(--mobile-gutter);overflow:visible}
  .storyClip:nth-child(1){top:9svh}
- .storyClip:nth-child(2){top:78svh;left:18vw;right:.6rem}
- .storyClip:nth-child(3){top:155svh;left:var(--mobile-gutter)}
+ .storyClip:nth-child(2){top:76svh;left:12vw;right:var(--mobile-gutter)}
+ .storyClip:nth-child(3){top:150svh;left:var(--mobile-gutter)}
  .storyStage h2 span:nth-child(2),.storyStage h2 span:nth-child(3){margin:0}
+ .storyClip:nth-child(2) .storyLine{font-size:.68em;letter-spacing:-.065em;white-space:nowrap}
+ html[lang="en"] .storyClip:nth-child(2) .storyLine{font-size:1em;letter-spacing:-.075em}
  .storyClip:nth-child(3) .storyLine{font-family:var(--font-editorial);font-size:1.07em;letter-spacing:-.055em}
  .storyStage .s1{width:82vw;height:49svh;left:0;top:18svh}
  .storyStage .s2{width:57vw;height:43svh;right:0;top:91svh}
@@ -438,7 +441,7 @@ html[lang="en"] .storyStage h2 span:nth-child(3){margin-left:18vw}
  .storyMedia img{filter:saturate(.8) contrast(1.03) brightness(.78)}
  .storyNote{left:var(--mobile-gutter);bottom:1rem;font-size:.8rem}
 
- .format{display:flex;flex-direction:column;padding:6.5rem var(--mobile-gutter);gap:2.5rem;background:#e8e7e1;color:#111412}
+ .format{display:flex;flex-direction:column;padding:6.25rem var(--mobile-gutter) 3.25rem;gap:2.5rem;background:linear-gradient(180deg,#ebe9e3,#dfded7);color:#111412}
  .formatTitle{display:contents}
  .format .eyebrow{order:0}
  .format h2{order:1;margin:0;font-size:var(--mobile-display-lg);line-height:.91}
@@ -446,21 +449,23 @@ html[lang="en"] .storyStage h2 span:nth-child(3){margin-left:18vw}
  .formatList{order:3;margin:0;border-top-color:#5d635f}
  .formatList button{min-height:4rem;padding:.65rem 0;grid-template-columns:2.4rem 1fr 1rem;gap:.5rem}
  .formatList button span{font-size:.58rem}.formatList strong{font-size:.76rem}.formatList em{display:none}
+ .formatDesktopArrow{display:none}.formatList .formatIndicator{display:flex;width:1.5rem;height:44px;align-items:center;justify-content:flex-end;color:#187a80;font:500 .85rem/1 var(--font-ui);background:none;border:0}
  .formatList button.active{border-bottom-color:#187a80}
  .formatList button.active span{font-weight:700}
 
- .archive{padding:7rem 0 8rem;overflow:hidden;background:#080a09}
+ .archive{padding:6.5rem 0 4rem;overflow:hidden;background:#080a09}
  .archiveHead{padding:0 var(--mobile-gutter);margin-bottom:4rem}
  .archiveHead h2{font-size:var(--mobile-display-lg);line-height:.9}
  .archiveTrack{display:block;padding:0;overflow:visible}
- .archive figure{position:relative;width:100%;margin:0 0 8rem}
+ .archive figure{position:relative;width:100%;margin:0 0 5rem}
+ .archive figure:last-child{margin-bottom:1rem}
  .archive figure>div{width:88vw;height:56svh}
  .archive figure:nth-child(odd)>div{margin-left:0}
  .archive figure:nth-child(even)>div{margin-left:12vw}
  .archive figure::before{content:attr(data-code);position:absolute;z-index:0;top:-.28em;font:500 31vw/.8 var(--font-display);letter-spacing:-.1em;color:transparent;-webkit-text-stroke:1px #8be3e64a}
  .archive figure:nth-child(odd)::before{right:-.06em}.archive figure:nth-child(even)::before{left:-.06em}
- .archive figcaption{width:calc(100% - 2 * var(--mobile-gutter));margin:0 var(--mobile-gutter);grid-template-columns:4rem 1fr;padding:1rem 0}
- .archive figcaption span{font-size:1.8rem}.archive figcaption b{font-size:.75rem}.archive figcaption em{grid-column:2;font-size:.6rem;text-align:left}
+ .archive figcaption{position:relative;z-index:2;width:calc(100% - 2 * var(--mobile-gutter));margin:0 var(--mobile-gutter);grid-template-columns:5rem minmax(0,1fr);column-gap:.55rem;padding:1rem 0;background:#080a09}
+ .archive figcaption span{font-size:1.45rem;white-space:nowrap}.archive figcaption b{min-width:0;font-size:.75rem;padding-left:.15rem}.archive figcaption em{grid-column:2;font-size:.6rem;text-align:left;padding-left:.15rem}
 
  .about{position:relative;min-height:100svh;padding:6rem var(--mobile-gutter);display:block;overflow:hidden;background:linear-gradient(180deg,#070909b8,#070909ed),url('/images/madrussians/kurils-02.jpeg') 58% center/cover}
  .about>div:first-child{position:relative;z-index:2}
